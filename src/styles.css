@@ -1,0 +1,130 @@
+.jadou-modal {
+	width: var(--prompt-width);
+	background: var(--background-primary);
+
+	& .results {
+		list-style: none;
+		margin: 0;
+		padding: var(--size-4-3);
+		overflow-y: auto;
+	}
+
+	& .result {
+		cursor: pointer;
+		padding: var(--size-4-4);
+	}
+
+	& .result.is-selected {
+		background-color: var(--background-modifier-hover);
+	}
+}
+
+strong.tags {
+	font-weight: inherit;
+	color: var(--text-muted);
+	text-decoration: underline var(--size-2-1) solid var(--text-warning);
+	text-underline-offset: var(--size-2-1);
+}
+
+.entering,
+.leaving {
+	filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.25));
+	animation: slideIn 0.4s ease;
+}
+
+.leaving {
+	animation-direction: reverse;
+}
+
+@keyframes slideIn {
+	0% {
+		transform: translateX(120%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+.glossary {
+	& nav {
+		position: sticky;
+		top: 0;
+		background-color: var(--background-primary);
+		padding: var(--size-4-3);
+		display: flex;
+		align-items: center;
+		box-shadow: var(--pdf-shadow);
+		margin-bottom: var(--size-4-3);
+		gap: var(--size-4-3);
+
+		& .warning {
+			font-size: var(--font-ui-small);
+			color: var(--text-warning);
+		}
+	}
+
+	& > ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--size-4-4);
+
+		& > li {
+			align-self: flex-start;
+			border-right: 27px solid var(--color-accent-1);
+			padding: var(--size-4-3);
+			background-color: var(--background-secondary-alt);
+			color: var(--text-normal);
+			filter: drop-shadow(3px 1px 1px rgba(0, 0, 0, 0.25));
+			transition:
+				filter 0.2s ease,
+				transform 150ms ease,
+				background-color 150ms ease;
+			cursor: grab;
+
+			&.dragging {
+				background-color: var(--background-modifier-cover);
+				margin-left: var(--size-4-4);
+			}
+		}
+	}
+}
+
+.result-header {
+	display: flex;
+}
+
+.result-main {
+	list-style: decimal;
+	margin-top: var(--size-4-2);
+}
+
+[data-kanaflag]::after {
+	margin-left: auto;
+	font-style: italic;
+	padding-left: var(--size-4-2);
+}
+
+[data-kanaflag="common"]::after {
+	color: var(--color-green);
+	content: "common";
+}
+
+[data-kanaflag="ok"]::after {
+	color: var(--color-yellow);
+	content: "outdated";
+}
+
+[data-kanaflag="rk"]::after {
+	color: var(--color-orange);
+	content: "rare";
+}
+
+[data-kanaflag="ik"]::after {
+	color: var(--color-red);
+	content: "irregular";
+}

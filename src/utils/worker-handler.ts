@@ -1,0 +1,126 @@
+import type JADOU from "../main.ts";
+import type { Tokenizer } from "../types.ts";
+import { Notice } from "obsidian";
+import { DB_NAME, DATA_FILES, JMDICT_FILE } from "./constants.ts";
+import { isDownloaded } from "./downloader.ts";
+import { JADOUListModal } from "../ui/readingsuggester.ts";
+import { extractSemanticUnits } from "../utils/formatter.ts";
+
+export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
+	const worker = plugin.worker!;
+
+	async function handleBuild() {
+		const adapter = plugin.app.vault.adapter;
+
+		for (const dataFile of DATA_FILES) {
+			const fileExists = await isDownloaded(
+				plugin,
+				adapter,
+				dataFile,
+			);
+			if (!fileExists) return;
+		}
+
+		const binaryData = await adapter.readBinary(
+			`${plugin.dataFolderPath}/${JMDICT_FILE}`,
+		);
+		worker!.postMessage({ type: "build", binaryData });
+		new Notice("Building database");
+	}
+
+	function handleReady() {
+		new Notice("Dictionary ready to use");
+		plugin.dictionaryReady = true;
+	}
+
+	function handleResult(message: any) {
+		const entries = message.entries;
+		const keystring = message.keystring;
+		if (entries.length === 0) {
+			new Notice(`No matches for ${keystring}`);
+			tryMorphed(keystring);
+			return;
+		}
+
+		const units = extractSemanticUnits(entries, keystring);
+
+		if (units.length === 0) {
+			new Notice("Nothing found");
+			return;
+		}
+		new JADOUListModal(plugin, units, keystring).open();
+	}
+
+	function tryMorphed(keystring: string) {
+		const newKeystring = tokenizer.tokenize(keystring)[0]?.basic_form;
+		let validNewKeyString = false;
+		if (
+			newKeystring &&
+			newKeystring !== "*" &&
+			newKeystring !== keystring
+		) {
+			validNewKeyString = true;
+		}
+		if (validNewKeyString) {
+			new Notice(`Searching for ${newKeystring}`);
+			plugin.worker!.postMessage({
+				type: "lookup",
+				keystring: newKeystring,
+			});
+		}
+	}
+
+	const handlers: Record<string, (message: any) => void> = {
+		build: handleBuild,
+		ready: handleReady,
+		result: handleResult,
+	};
+
+	function handleWorkerMessage(event: MessageEvent) {
+		handlers[event.data.type]!(event.data);
+	}
+
+	worker!.onmessage = handleWorkerMessage;
+
+	worker!.postMessage({ type: "init" });
+}
+
+export function lookupKeyString(plugin: JADOU) {
+	const worker = plugin.worker;
+	if (!worker) {
+		new Notice("Reload the plugin!");
+		return;
+	}
+
+	if (plugin.dictionaryReady) {
+		worker.postMessage({
+			type: "lookup",
+			keystring: plugin.originalKeystring,
+		});
+	} else {
+		new Notice("Database not ready");
+	}
+}
+
+export function terminateWorker(plugin: JADOU) {
+	const worker = plugin.worker;
+	if (!worker) return;
+	worker.terminate();
+	plugin.worker = null;
+}
+
+export async function deleteCache(plugin: JADOU) {
+	const dbs = await indexedDB.databases();
+	const dbExists = dbs.some((db) => db.name === DB_NAME);
+
+	if (dbExists) {
+		terminateWorker(plugin);
+
+		const request = indexedDB.deleteDatabase(DB_NAME);
+		request.onsuccess = () => new Notice("Dictionary cache deleted");
+		plugin.dictionaryReady = false;
+	} else {
+		new Notice("No dictionary cache");
+		return;
+	}
+}
