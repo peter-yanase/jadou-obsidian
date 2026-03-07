@@ -20,7 +20,12 @@ const Database = (() => {
 				db = DBOpenRequest.result;
 				resolve();
 			};
-			DBOpenRequest.onerror = () => reject(DBOpenRequest.error);
+			DBOpenRequest.onerror = () =>
+				reject(
+					new Error(
+						DBOpenRequest.error?.message ?? "IndexedDB error",
+					),
+				);
 		});
 	}
 
@@ -28,10 +33,14 @@ const Database = (() => {
 		return db!.transaction(storeNames, mode);
 	}
 
-	function get(ObjectStore: IDBObjectStore, key: IDBValidKey): Promise<any> {
+	function get<T>(
+		ObjectStore: IDBObjectStore,
+		key: IDBValidKey,
+	): Promise<T | undefined> {
 		return new Promise((resolve) => {
 			const DBRequest = ObjectStore.get(key);
-			DBRequest.onsuccess = () => resolve(DBRequest.result);
+			DBRequest.onsuccess = () =>
+				resolve(DBRequest.result as T | undefined);
 			DBRequest.onerror = () => resolve(undefined);
 		});
 	}
@@ -65,8 +74,18 @@ const Dictionary = (() => {
 
 		await new Promise<void>((resolve, reject) => {
 			transaction.oncomplete = () => resolve();
-			transaction.onerror = () => reject(transaction.error);
-			transaction.onabort = () => reject(transaction.error);
+			transaction.onerror = () =>
+				reject(
+					new Error(
+						transaction.error?.message ?? "Transaction error",
+					),
+				);
+			transaction.onabort = () =>
+				reject(
+					new Error(
+						transaction.error?.message ?? "Transaction aborted",
+					),
+				);
 		});
 	}
 
@@ -83,11 +102,7 @@ const Dictionary = (() => {
 
 		const results: Entry[] = [];
 		for (const id of ids) {
-			const entry = await new Promise<Entry | null>((resolve) => {
-				const DBRequest = entriesStore.get(id);
-				DBRequest.onsuccess = () => resolve(DBRequest.result ?? null);
-				DBRequest.onerror = () => resolve(null);
-			});
+			const entry = await Database.get<Entry>(entriesStore, id);
 			if (entry) results.push(entry);
 		}
 
@@ -119,7 +134,7 @@ const Handlers = {
 	async build(message: { binaryData: ArrayBuffer }) {
 		const readable = getReadableStream(message.binaryData);
 		const text = await new Response(readable).text();
-		const dictionary: DictionaryObject = JSON.parse(text);
+		const dictionary = JSON.parse(text) as DictionaryObject;
 
 		await Dictionary.storeDictionary(dictionary);
 		postMessage({ type: "ready" });
@@ -131,13 +146,18 @@ const Handlers = {
 	},
 };
 
-const Router: Record<WorkerMessage["type"], (message: any) => void> = {
-	init: () => Handlers.init(),
-	build: (message) => Handlers.build(message),
-	lookup: (message) => Handlers.lookup(message),
-};
+onmessage = (event: MessageEvent<WorkerMessage>) => {
+	const message = event.data;
 
-onmessage = (event) => {
-	const message: WorkerMessage = event.data;
-	Router[message.type](message);
+	switch (message.type) {
+		case "init":
+			void Handlers.init();
+			break;
+		case "build":
+			void Handlers.build(message);
+			break;
+		case "lookup":
+			void Handlers.lookup(message);
+			break;
+	}
 };

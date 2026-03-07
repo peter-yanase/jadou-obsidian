@@ -111,7 +111,7 @@ export class JADOUListModal extends Modal {
 				tagsEl.appendText(" (");
 
 				const taglistEl = createEl("strong");
-				taglistEl.addClass("tags")
+				taglistEl.addClass("tags");
 				taglistEl.appendText(tags);
 				tagsEl.appendChild(taglistEl);
 
@@ -173,17 +173,19 @@ export class JADOUListModal extends Modal {
 		this.close();
 	}
 
-	private async addToGlossary() {
+	private addToGlossary() {
 		const formattedResultEl = this.resultsEl!.children[
 			this.selectedIndex
 		] as HTMLElement;
 		this.close();
-		setTimeout(async () => {
-			const resultView = await this.plugin.getGlossaryView();
-			const clonedResultEl = formattedResultEl.cloneNode(
-				true,
-			) as HTMLElement;
-			resultView.setContent(clonedResultEl);
+		setTimeout(() => {
+			void (async () => {
+				const resultView = await this.plugin.getGlossaryView();
+				const clonedResultEl = formattedResultEl.cloneNode(
+					true,
+				) as HTMLElement;
+				resultView.setContent(clonedResultEl);
+			})();
 		}, 0);
 	}
 

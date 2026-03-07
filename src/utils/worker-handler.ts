@@ -1,5 +1,5 @@
 import type JADOU from "../main.ts";
-import type { Tokenizer } from "../types.ts";
+import type { Tokenizer, WorkerMessage } from "../types.ts";
 import { Notice } from "obsidian";
 import { DB_NAME, DATA_FILES, JMDICT_FILE } from "./constants.ts";
 import { isDownloaded } from "./downloader.ts";
@@ -13,18 +13,14 @@ export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 		const adapter = plugin.app.vault.adapter;
 
 		for (const dataFile of DATA_FILES) {
-			const fileExists = await isDownloaded(
-				plugin,
-				adapter,
-				dataFile,
-			);
+			const fileExists = await isDownloaded(plugin, adapter, dataFile);
 			if (!fileExists) return;
 		}
 
 		const binaryData = await adapter.readBinary(
 			`${plugin.dataFolderPath}/${JMDICT_FILE}`,
 		);
-		worker!.postMessage({ type: "build", binaryData });
+		worker.postMessage({ type: "build", binaryData });
 		new Notice("Building database");
 	}
 
@@ -33,7 +29,7 @@ export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 		plugin.dictionaryReady = true;
 	}
 
-	function handleResult(message: any) {
+	function handleResult(message: Extract<WorkerMessage, { type: "result" }>) {
 		const entries = message.entries;
 		const keystring = message.keystring;
 		if (entries.length === 0) {
@@ -70,19 +66,25 @@ export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 		}
 	}
 
-	const handlers: Record<string, (message: any) => void> = {
-		build: handleBuild,
-		ready: handleReady,
-		result: handleResult,
-	};
+	function handleWorkerMessage(event: MessageEvent<WorkerMessage>) {
+		const msg = event.data;
 
-	function handleWorkerMessage(event: MessageEvent) {
-		handlers[event.data.type]!(event.data);
+		switch (msg.type) {
+			case "build":
+				void handleBuild();
+				break;
+			case "ready":
+				handleReady();
+				break;
+			case "result":
+				handleResult(msg);
+				break;
+		}
 	}
 
-	worker!.onmessage = handleWorkerMessage;
+	worker.onmessage = handleWorkerMessage;
 
-	worker!.postMessage({ type: "init" });
+	worker.postMessage({ type: "init" });
 }
 
 export function lookupKeyString(plugin: JADOU) {

@@ -21,7 +21,7 @@ export async function isDownloaded(
 		await adapter.writeBinary(dataPath, response.arrayBuffer);
 		new Notice(`Downloaded ${fileName}`);
 		return true;
-	} catch (err) {
+	} catch {
 		new Notice(`Failed to download ${fileName}`);
 		return false;
 	}

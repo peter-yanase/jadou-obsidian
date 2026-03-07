@@ -41,9 +41,8 @@ export default class JADOU extends Plugin {
 		this.registerView(GLOSSARY_VIEW_TYPE, (leaf) => new GlossaryView(leaf));
 	}
 
-	async onunload() {
+	onunload() {
 		terminateWorker(this);
-		this.app.workspace.detachLeavesOfType(GLOSSARY_VIEW_TYPE);
 	}
 
 	async getGlossaryView() {

@@ -18,6 +18,7 @@ export class JADOUSettingsTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName("Delete dictionary cache")
 			.setDesc(
+				// eslint-disable-next-line obsidianmd/ui/sentence-case
 				"Clears the IndexedDB cache. The dictionary will rebuild on plugin reload.",
 			)
 			.addButton((button) =>

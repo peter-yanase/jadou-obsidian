@@ -18,7 +18,10 @@ export function addMDRubyWrapper(
 
 	editor.replaceSelection(annotatedString);
 
-	function extractKanjiReadings(surface: string, reading: string) {
+	function extractKanjiReadings(
+		surface: string,
+		reading: string,
+	): Map<string, string> {
 		const isKanji = (character: string) =>
 			/\p{Script=Han}/u.test(character);
 

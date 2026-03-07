@@ -116,7 +116,7 @@ export class GlossaryView extends ItemView {
 		entryEl.setAttribute("draggable", "true");
 
 		entryEl.addEventListener("dragstart", (event) => {
-			event.dataTransfer!.dropEffect = "move"
+			event.dataTransfer!.dropEffect = "move";
 			entryEl.addClass("dragging");
 
 			const rawHtml = `<br>${entryEl.outerHTML}`;
@@ -134,7 +134,9 @@ export class GlossaryView extends ItemView {
 	private copyAll() {
 		const glossaryEl = this.getGlossary();
 		if (!glossaryEl) return;
-		navigator.clipboard.writeText(htmlToMarkdown(glossaryEl.outerHTML));
+		void navigator.clipboard.writeText(
+			htmlToMarkdown(glossaryEl.outerHTML),
+		);
 		new Notice("Glossary copied");
 	}
 
