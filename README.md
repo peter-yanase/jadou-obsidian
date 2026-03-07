@@ -16,7 +16,7 @@ In Obsidian, JADOU works both in reading and editing mode, and even in PDF view.
 
 ## How to Use
 
-- Select a Japanese expression _containing kanji_ and trigger the lookup command to open the dictionary panel. You can use the ribbon icon, the command panel, a keyboard shortcut, or the editor’s context menu to do this.
+- Select a Japanese expression _containing kanji_ and trigger the lookup command to open the dictionary panel. You can use the ribbon icon, the command panel, a keyboard shortcut, or the editor’s context menu to this.
 - The “common,” “rare,” “irregular,” and “outdated” tags next to the entries refer to the kana usage / readings. These guide you toward the most context-appropriate bundle.
 - Select an entry and press <kb>Enter</kb>, or click it, to add it to your glossary.
 - Drag around entries inside the glossary to reorder them.

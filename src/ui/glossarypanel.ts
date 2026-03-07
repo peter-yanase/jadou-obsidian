@@ -24,6 +24,8 @@ export class GlossaryView extends ItemView {
 		return JADOU_ICON;
 	}
 
+	// Obsidian requires onOpen() to be async even if no await is used.
+	// eslint-disable-next-line @typescript-eslint/require-await
 	async onOpen() {
 		this.contentEl.empty();
 		this.contentEl.addClass("glossary");
