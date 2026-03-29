@@ -70,6 +70,8 @@ export const STORE_NAMES = {
 	kanjiIndex: "kanjiIndex",
 };
 
+export const SUPPORTED_VIEWS = ["markdown", "pdf", "lineage"]
+
 export const ABBREVIATIONS: Record<string, string> = {
 	// Reading
 	gikun: "gikun (meaning as reading) or jukujikun (special kanji reading)",

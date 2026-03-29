@@ -12,7 +12,7 @@ export default defineConfig([
       parserOptions: { project: "./tsconfig.json" },
       globals: {
         ...globals.browser,
-            createEl: "readonly",
+        createEl: "readonly",
       },
     },
   },

@@ -1,6 +1,6 @@
 import type JADOU from "../main.ts";
 import { MarkdownView, Notice, View } from "obsidian";
-import { JADOU_ICON } from "utils/constants.ts";
+import { JADOU_ICON, SUPPORTED_VIEWS } from "utils/constants.ts";
 import { lookupKeyString } from "../utils/worker-handler.ts";
 
 // Wrapper function
@@ -44,17 +44,17 @@ function ribbonLookup(plugin: JADOU) {
 }
 
 function triggerLookup(plugin: JADOU) {
-	const wspace = plugin.app.workspace;
-	plugin.editorDuringLookup = wspace.activeEditor?.editor;
+	const workspace = plugin.app.workspace;
+	plugin.editorDuringLookup = workspace.activeEditor?.editor;
 
-	const viewType = wspace.getActiveViewOfType(View)?.getViewType();
+	const viewType = workspace.getActiveViewOfType(View)!.getViewType();
 
-	if (viewType !== "markdown" && viewType !== "pdf") {
+	if (!SUPPORTED_VIEWS.includes(viewType)) {
 		new Notice("Unsupported view");
 		return;
 	}
 
-	// Prioritize window
+	// Prioritize window selection -- PDF view and reading view
 	const windowSelection = window.getSelection()?.toString();
 
 	if (windowSelection) {
@@ -63,10 +63,13 @@ function triggerLookup(plugin: JADOU) {
 		return;
 	}
 
-	// Make sure the selection from editing view does not bleed through the reading view
+	// In Obsidian, the selection from editing view is callable even if the user is in reading view.
+	// Therefore, we have to make sure we are _not_ in reading mode before we call it.
 	const editingView =
-		wspace.getActiveViewOfType(MarkdownView)?.getMode() === "source";
-	if (editingView) {
+		workspace.getActiveViewOfType(MarkdownView)?.getMode() === "source";
+	if (editingView
+		|| viewType === "lineage" // Lineage plugin support
+	) {
 		const editorSelection = plugin.editorDuringLookup?.getSelection();
 
 		if (editorSelection) {

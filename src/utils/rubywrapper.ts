@@ -9,12 +9,12 @@ export function addMDRubyWrapper(
 	if (!editor) {
 		return;
 	}
-	const map = extractKanjiReadings(keystring, reading);
+	const kanjiReadingMap = extractKanjiReadings(keystring, reading);
 
 	const annotatedString =
 		keystring === originalKeystring
-			? annotateWithRuby(keystring, map)
-			: annotateWithRuby(originalKeystring, map);
+			? annotateWithRuby(keystring, kanjiReadingMap)
+			: annotateWithRuby(originalKeystring, kanjiReadingMap);
 
 	editor.replaceSelection(annotatedString);
 
