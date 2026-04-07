@@ -6,6 +6,7 @@ In Japanese, the right combination of kanji, readings, and meanings depend on co
 
 ## Notable Features
 
+- Mobile support
 - PDF support
 - Lineage (https://github.com/ycnmhd/obsidian-lineage) plugin support
 
