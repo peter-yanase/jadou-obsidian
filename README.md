@@ -21,10 +21,6 @@ In Japanese, the right combination of kanji, readings, and meanings depend on co
 - Right‑click an entry to remove it from the glossary.
 - Press <kb>Space</kb> or right‑click an entry in the dictionary panel to insert furigana instead of adding it to the glossary.
 
-## Design Choices
-
-- Bulk operations are intentionally not supported.
-
 ## Roadmap
 
 Feature requests, bug reports, and pull requests are welcome.
@@ -35,8 +31,9 @@ Feature requests, bug reports, and pull requests are welcome.
 
 ### Planned
 
-- Saving and loading glossaries.
+- Saving/loading/attaching glossaries.
 - Kana-only lookup support.
+- Support for Sudachi
 
 ## Security
 
