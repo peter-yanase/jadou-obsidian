@@ -52,7 +52,7 @@ This project includes code derived from:
 
 This software uses data derived from the JMdict/EDICT dictionary files, licensed under the CC-BY-SA-4.0 License. Copyright (c) 2000 Electronic Dictionary Research and Development Group.
 
-This software uses data derived from the SudachiDict dictionary files, licensed under the Apache License, Version 2.0. Copyright (c) 2017-2023 Works Applications Co., Ltd.
+This software uses data derived from the SudachiDict (https://github.com/WorksApplications/SudachiDict) dictionary files, licensed under the Apache License, Version 2.0. Copyright (c) 2017-2023 Works Applications Co., Ltd.
 
 This software uses a file from jmdict-simplified (https://github.com/scriptin/jmdict-simplified), licensed under the CC-BY-SA-4.0 License. Copyright (c) 2017-2026 Dmitry Shpika.
 
