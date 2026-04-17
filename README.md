@@ -1,11 +1,12 @@
 # JADOU
 
-JADOU is an evolving, in‑context Japanese language toolbox. You can look up readings and meanings, insert furigana, and build glossaries with it. Everything runs locally with no network access.
+JADOU is an evolving, in‑context Japanese language toolbox created by a specialist in Japanese language and culture. You can look up readings and meanings, insert furigana, and build glossaries with it. Everything runs locally with no network access.
 
-In Japanese, the right combination of kanji, readings, and meanings depend on context. JADOU groups these together to help you choose the right bundle for the text in front of you.
+In Japanese, the right combination of kanji, readings, and meanings depend on context. JADOU is built to help you find the right combination for the text in front of you ASAP.
 
 ## Notable Features
 
+- Support for inflected word forms
 - Mobile support
 - PDF support
 - Lineage (https://github.com/ycnmhd/obsidian-lineage) plugin support
@@ -37,12 +38,8 @@ Feature requests, bug reports, and pull requests are welcome.
 
 ## Security
 
+- This plugin has zero dependencies.
 - JADOU requires an internet connection only to download or update its dictionary data. It operates entirely offline otherwise and does not transmit or store your personal information.
-
-### Dependencies
-
-- [esbuild-plugin-inline-worker](https://github.com/mitschabaude/esbuild-plugin-inline-worker)
-- [@patdx/kuromoji](https://github.com/patdx/kuromoji.js)
 
 ## Licenses & Acknowledgments
 
@@ -54,6 +51,8 @@ This project includes code derived from:
 - Obsidian Web Worker Example (https://github.com/RyotaUshio/obsidian-web-worker-example), licensed under the MIT License. Copyright (c) 2023 Ryota Ushio.
 
 This software uses data derived from the JMdict/EDICT dictionary files, licensed under the CC-BY-SA-4.0 License. Copyright (c) 2000 Electronic Dictionary Research and Development Group.
+
+This software uses data derived from the SudachiDict dictionary files, licensed under the Apache License, Version 2.0. Copyright (c) 2017-2023 Works Applications Co., Ltd.
 
 This software uses a file from jmdict-simplified (https://github.com/scriptin/jmdict-simplified), licensed under the CC-BY-SA-4.0 License. Copyright (c) 2017-2026 Dmitry Shpika.
 
