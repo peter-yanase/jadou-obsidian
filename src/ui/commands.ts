@@ -1,13 +1,17 @@
 import type JADOU from "../main.ts";
-import { MarkdownView, Notice, View } from "obsidian";
-import { JADOU_ICON, SUPPORTED_VIEWS } from "utils/constants.ts";
+import { JADOU_ICON } from "utils/constants.ts";
 import { lookupKeyString } from "../utils/worker-handler.ts";
+import { selectSentence } from "utils/sentenceselector.ts";
+import { triggerLookup } from "./lookuptrigger.ts";
+
 
 // Wrapper function
 export function addCommands(plugin: JADOU) {
 	clickLookUp(plugin);
 	cmdLookUp(plugin);
 	ribbonLookup(plugin);
+	cmdSelectSentence(plugin);
+	clickSelectSentence(plugin);
 }
 
 function clickLookUp(plugin: JADOU) {
@@ -43,41 +47,24 @@ function ribbonLookup(plugin: JADOU) {
 	});
 }
 
-function triggerLookup(plugin: JADOU) {
-	const workspace = plugin.app.workspace;
-	plugin.editorDuringLookup = workspace.activeEditor?.editor;
+function cmdSelectSentence(plugin: JADOU) {
+	plugin.addCommand({
+		id: "select-sentence",
+		name: "Select sentence",
+		icon: "wand",
+		editorCallback: (editor) => selectSentence(editor)
+	});
+}
 
-	const viewType = workspace.getActiveViewOfType(View)!.getViewType();
-
-	if (!SUPPORTED_VIEWS.includes(viewType)) {
-		new Notice("Unsupported view");
-		return;
-	}
-
-	// Prioritize window selection -- PDF view and reading view
-	const windowSelection = window.getSelection()?.toString();
-
-	if (windowSelection) {
-		plugin.originalKeystring = windowSelection;
-		lookupKeyString(plugin);
-		return;
-	}
-
-	// In Obsidian, the selection from editing view is callable even if the user is in reading view.
-	// Therefore, we have to make sure we are _not_ in reading mode before we call it.
-	const editingView =
-		workspace.getActiveViewOfType(MarkdownView)?.getMode() === "source";
-	if (editingView
-		|| viewType === "lineage" // Lineage plugin support
-	) {
-		const editorSelection = plugin.editorDuringLookup?.getSelection();
-
-		if (editorSelection) {
-			plugin.originalKeystring = editorSelection;
-			lookupKeyString(plugin);
-			return;
-		}
-	}
-
-	new Notice("Nothing selected");
+function clickSelectSentence(plugin: JADOU) {
+	plugin.registerEvent(
+		plugin.app.workspace.on("editor-menu", (menu, editor) => {
+			menu.addItem((item) => {
+				item
+					.setTitle("Select sentence")
+					.setIcon("wand")
+					.onClick(() => selectSentence(editor));
+			});
+		})
+	);
 }

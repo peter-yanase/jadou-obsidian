@@ -1,15 +1,14 @@
 # JADOU
 
-JADOU is an evolving, in‑context Japanese language toolbox created by a specialist in Japanese language and culture. You can look up readings and meanings, insert furigana, and build glossaries with it. Everything runs locally with no network access.
-
-In Japanese, the right combination of kanji, readings, and meanings depend on context. JADOU is built to help you find the right combination for the text in front of you ASAP.
+JADOU is an evolving, in‑context Japanese language toolbox created by a specialist in Japanese language and culture. You can look up readings and meanings, insert furigana, build glossaries, and automatically select sentences with it. Everything runs locally with no network access.
 
 ## Notable Features
 
-- Support for inflected word forms
+- Support for looking up inflected word forms
 - Mobile support
 - PDF support
 - Lineage (https://github.com/ycnmhd/obsidian-lineage) plugin support
+- One-click/hotkey-binded sentence selection
 
 ## How to Use
 
@@ -34,7 +33,6 @@ Feature requests, bug reports, and pull requests are welcome.
 
 - Saving/loading/attaching glossaries.
 - Kana-only lookup support.
-- Support for Sudachi
 
 ## Security
 

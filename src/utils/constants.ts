@@ -1,3 +1,5 @@
+export const SENTENCE_SEPARATORS = ["．", "。", " ", "　", "？", "！"];
+
 export const DATA_FOLDER = "dict";
 
 export const JMDICT_FILE = "jmdict-eng-3.6.2.json.gz";
