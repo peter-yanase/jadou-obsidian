@@ -21,6 +21,12 @@ export class JADOUListModal extends Modal {
 	private resultsEl: HTMLElement | null = null;
 
 	onOpen() {
+		// Sort the units so that those with the common tag come first
+		this.units = [...this.units].sort((a, b) => {
+			if (a.kanaCommon === b.kanaCommon) return 0;
+			return a.kanaCommon ? -1 : 1;
+		});
+
 		this.setupContainer();
 		this.units.forEach((unit, index) => {
 			const resultEl = this.buildResultEl(unit, index);

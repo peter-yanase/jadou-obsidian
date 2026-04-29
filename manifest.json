@@ -1,7 +1,7 @@
 {
 	"id": "jadou",
 	"name": "JADOU",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"minAppVersion": "1.9.14",
 	"description": "In-context Japanese language toolbox.",
 	"author": "Peter Yanase",
