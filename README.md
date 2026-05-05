@@ -27,12 +27,12 @@ Feature requests, bug reports, and pull requests are welcome.
 
 ### Coming
 
+- Kana-only lookup support.
 - Support for traditional kanji forms.
 
 ### Planned
 
 - Saving/loading/attaching glossaries.
-- Kana-only lookup support.
 
 ## Security
 
