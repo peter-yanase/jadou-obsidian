@@ -1,4 +1,4 @@
-import type { Entry, SemanticUnit } from "../types.ts";
+import type { Entry, SemanticUnit } from "types.ts";
 
 export function extractSemanticUnits(
 	entries: Entry[],

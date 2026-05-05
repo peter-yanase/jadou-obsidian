@@ -2,10 +2,10 @@ import type { WorkspaceLeaf } from "obsidian";
 import { ItemView, Notice, htmlToMarkdown } from "obsidian";
 import {
 	GLOSSARY_VIEW_TYPE,
-	JADOU_ICON,
 	JADOU_GLOSSARY_PANEL_NAME,
-} from "../utils/constants.ts";
-import { Sorter } from "../utils/sorter.ts";
+	ICONS,
+} from "utils/constants.ts";
+import { Sorter } from "utils/sorter.ts";
 
 export class GlossaryView extends ItemView {
 	constructor(leaf: WorkspaceLeaf) {
@@ -21,7 +21,7 @@ export class GlossaryView extends ItemView {
 	}
 
 	getIcon() {
-		return JADOU_ICON;
+		return ICONS["glossary"]!;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/require-await -- Obsidian requires this to be async

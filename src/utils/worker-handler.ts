@@ -1,10 +1,10 @@
-import type JADOU from "../main.ts";
-import type { Tokenizer, WorkerMessage } from "../types.ts";
+import type JADOU from "main.ts";
+import type { Tokenizer, WorkerMessage } from "types.ts";
 import { Notice } from "obsidian";
-import { DB_NAME, DATA_FILES, JMDICT_FILE } from "./constants.ts";
-import { isDownloaded } from "./downloader.ts";
-import { JADOUListModal } from "../ui/readingsuggester.ts";
-import { extractSemanticUnits } from "../utils/formatter.ts";
+import { JADOUListModal } from "ui/readingsuggester.ts";
+import { DB_NAME, DATA_FILES, JMDICT_FILE } from "utils/constants.ts";
+import { isDownloaded } from "utils/downloader.ts";
+import { extractSemanticUnits } from "utils/formatter.ts";
 
 export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 	const worker = plugin.worker!;
@@ -87,7 +87,7 @@ export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 	worker.postMessage({ type: "init" });
 }
 
-export function lookupKeyString(plugin: JADOU) {
+export function lookUpKeystring(plugin: JADOU) {
 	const worker = plugin.worker;
 	if (!worker) {
 		new Notice("Reload the plugin!");

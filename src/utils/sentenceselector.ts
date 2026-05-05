@@ -1,5 +1,5 @@
 import type { Editor } from "obsidian";
-import { SENTENCE_SEPARATORS } from "./constants.ts";
+import { SENTENCE_SEPARATORS } from "utils/constants.ts";
 
 export function selectSentence(editor: Editor) {
     const cursor = editor.getCursor();

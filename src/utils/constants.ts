@@ -1,3 +1,9 @@
+export const ICONS: Record<string, string> = {
+	lookUp: "languages",
+	selectSentence: "wand",
+	glossary: "table-properties",
+};
+
 export const SENTENCE_SEPARATORS = ["．", "。", " ", "　", "？", "！"];
 
 export const DATA_FOLDER = "dict";
@@ -72,7 +78,7 @@ export const STORE_NAMES = {
 	kanjiIndex: "kanjiIndex",
 };
 
-export const SUPPORTED_VIEWS = ["markdown", "pdf", "lineage"]
+export const SUPPORTED_VIEWS = ["markdown", "pdf", "lineage"];
 
 export const ABBREVIATIONS: Record<string, string> = {
 	// Reading
