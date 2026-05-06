@@ -2,20 +2,14 @@ import type JADOU from "main.ts";
 import type { Tokenizer, WorkerMessage } from "types.ts";
 import { Notice } from "obsidian";
 import { JADOUListModal } from "ui/readingsuggester.ts";
-import { DB_NAME, DATA_FILES, JMDICT_FILE } from "utils/constants.ts";
-import { isDownloaded } from "utils/downloader.ts";
+import { DB_NAME, JMDICT_FILE } from "utils/constants.ts";
 import { extractSemanticUnits } from "utils/formatter.ts";
 
 export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 	const worker = plugin.worker!;
 
 	async function handleBuild() {
-		const adapter = plugin.app.vault.adapter;
-
-		for (const dataFile of DATA_FILES) {
-			const fileExists = await isDownloaded(plugin, adapter, dataFile);
-			if (!fileExists) return;
-		}
+		const { adapter } = plugin.app.vault;
 
 		const binaryData = await adapter.readBinary(
 			`${plugin.dataFolderPath}/${JMDICT_FILE}`,
@@ -94,14 +88,15 @@ export function lookUpKeystring(plugin: JADOU) {
 		return;
 	}
 
-	if (plugin.dictionaryReady) {
-		worker.postMessage({
-			type: "lookup",
-			keystring: plugin.originalKeystring,
-		});
-	} else {
+	if (!plugin.dictionaryReady) {
 		new Notice("Database not ready");
+		return;
 	}
+
+	worker.postMessage({
+		type: "lookup",
+		keystring: plugin.originalKeystring,
+	});
 }
 
 export function terminateWorker(plugin: JADOU) {
@@ -115,14 +110,14 @@ export async function deleteCache(plugin: JADOU) {
 	const dbs = await indexedDB.databases();
 	const dbExists = dbs.some((db) => db.name === DB_NAME);
 
-	if (dbExists) {
-		terminateWorker(plugin);
-
-		const request = indexedDB.deleteDatabase(DB_NAME);
-		request.onsuccess = () => new Notice("Dictionary cache deleted");
-		plugin.dictionaryReady = false;
-	} else {
+	if (!dbExists) {
 		new Notice("No dictionary cache");
 		return;
 	}
+
+	terminateWorker(plugin);
+
+	const request = indexedDB.deleteDatabase(DB_NAME);
+	request.onsuccess = () => new Notice("Dictionary cache deleted");
+	plugin.dictionaryReady = false;
 }

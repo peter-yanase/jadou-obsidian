@@ -1,9 +1,9 @@
 import type JADOU from "main.ts";
 import type { SemanticUnit } from "types.ts";
 import { Modal } from "obsidian";
+import { getGlossaryView } from "ui/glossaryview.ts";
 import { ABBREVIATIONS } from "utils/constants.ts";
 import { addMDRubyWrapper } from "utils/rubywrapper.ts";
-import { getGlossaryView } from "ui/glossaryview.ts";
 
 export class JADOUListModal extends Modal {
 	private plugin: JADOU;
@@ -172,9 +172,8 @@ export class JADOUListModal extends Modal {
 
 	private addFurigana() {
 		addMDRubyWrapper(
-			this.plugin.editorDuringLookUp,
+			this.plugin,
 			this.keystring,
-			this.plugin.originalKeystring!,
 			this.units[this.selectedIndex]!.kana,
 		);
 		this.close();

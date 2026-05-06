@@ -65,8 +65,6 @@ export const DATA_FILES = [
 	},
 ];
 
-export const JADOU_ICON = "swatch-book";
-
 export const GLOSSARY_VIEW_TYPE = "jadou-glossary-view";
 
 export const JADOU_GLOSSARY_PANEL_NAME = "JADOU glossary";
