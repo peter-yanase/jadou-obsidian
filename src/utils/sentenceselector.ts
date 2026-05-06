@@ -1,31 +1,36 @@
 import type { Editor } from "obsidian";
-import { SENTENCE_SEPARATORS } from "./constants.ts";
+import { SENTENCE_SEPARATORS } from "utils/constants.ts";
 
 export function selectSentence(editor: Editor) {
-    const cursor = editor.getCursor();
-    const line = editor.getLine(cursor.line);
-    const cursorPosition = cursor.ch;
+	const cursor = editor.getCursor();
+	const line = editor.getLine(cursor.line);
+	const cursorPosition = cursor.ch;
 
-    let sentenceStart = 0;
-    let sentenceEnd = line.length;
+	let sentenceStart = 0;
+	let sentenceEnd = line.length;
 
-    for (const separator of SENTENCE_SEPARATORS) {
+	for (const separator of SENTENCE_SEPARATORS) {
+		// Next separator after cursor
+		const separatorAfter = line.indexOf(separator, cursorPosition);
+		if (separatorAfter !== -1) {
+			sentenceEnd = Math.min(
+				sentenceEnd,
+				separatorAfter + separator.length,
+			);
+		}
 
-        // Next separator after cursor
-        const nextIdx = line.indexOf(separator, cursorPosition);
-        if (nextIdx !== -1) {
-            sentenceEnd = Math.min(sentenceEnd, nextIdx + separator.length);
-        }
+		// Last separator before cursor
+		const separatorBefore = line.lastIndexOf(separator, cursorPosition - 1);
+		if (separatorBefore !== -1) {
+			sentenceStart = Math.max(
+				sentenceStart,
+				separatorBefore + separator.length,
+			);
+		}
+	}
 
-        // Previous separator before cursor
-        const prevIdx = line.lastIndexOf(separator, cursorPosition - 1);
-        if (prevIdx !== -1) {
-            sentenceStart = Math.max(sentenceStart, prevIdx + separator.length);
-        }
-    }
-
-    editor.setSelection(
-        { line: cursor.line, ch: sentenceStart },
-        { line: cursor.line, ch: sentenceEnd }
-    );
+	editor.setSelection(
+		{ line: cursor.line, ch: sentenceStart },
+		{ line: cursor.line, ch: sentenceEnd },
+	);
 }

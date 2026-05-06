@@ -1,14 +1,17 @@
-import type { Editor } from "obsidian";
+import type JADOU from "main.ts";
+import { hasKanji } from "utils/stringchecker.ts";
 
 export function addMDRubyWrapper(
-	editor: Editor | undefined,
+	plugin: JADOU,
 	keystring: string,
-	originalKeystring: string,
 	reading: string,
 ): void {
-	if (!editor) {
-		return;
-	}
+	const editor = plugin.editorDuringLookUp;
+
+	if (!editor) return;
+
+	const originalKeystring = plugin.originalKeystring!;
+
 	const kanjiReadingMap = extractKanjiReadings(keystring, reading);
 
 	const annotatedString =
@@ -22,15 +25,12 @@ export function addMDRubyWrapper(
 		surface: string,
 		reading: string,
 	): Map<string, string> {
-		const isKanji = (character: string) =>
-			/\p{Script=Han}/u.test(character);
-
 		const kanjiBlocks: string[] = [];
 		let capturePattern = "";
 		let followsKanji = false;
 
 		for (const character of surface) {
-			if (isKanji(character)) {
+			if (hasKanji(character)) {
 				if (!followsKanji) {
 					// Add a kanji capture group
 					capturePattern += "(.+)";

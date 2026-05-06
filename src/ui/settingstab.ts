@@ -1,7 +1,7 @@
-import type JADOU from "../main.ts";
 import type { App } from "obsidian";
+import type JADOU from "main.ts";
 import { PluginSettingTab, Setting } from "obsidian";
-import { deleteCache } from "../utils/worker-handler.ts";
+import { deleteCache } from "utils/worker-handler.ts";
 
 export class JADOUSettingsTab extends PluginSettingTab {
 	private plugin: JADOU;
@@ -19,9 +19,12 @@ export class JADOUSettingsTab extends PluginSettingTab {
 			.setName("Delete dictionary cache")
 			.setDesc("The dictionary will rebuild on plugin reload.")
 			.addButton((button) =>
-				button.setButtonText("Delete").onClick(async () => {
-					await deleteCache(this.plugin);
-				}),
+				button
+					.setIcon("trash-2")
+					.setButtonText("Delete")
+					.onClick(async () => {
+						await deleteCache(this.plugin);
+					}),
 			);
 	}
 }

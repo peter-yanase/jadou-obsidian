@@ -1,8 +1,9 @@
 import type JADOU from "main.ts";
-import type { SemanticUnit } from "../types.ts";
+import type { SemanticUnit } from "types.ts";
 import { Modal } from "obsidian";
-import { ABBREVIATIONS } from "../utils/constants.ts";
-import { addMDRubyWrapper } from "../utils/rubywrapper.ts";
+import { getGlossaryView } from "ui/glossaryview.ts";
+import { ABBREVIATIONS } from "utils/constants.ts";
+import { addMDRubyWrapper } from "utils/rubywrapper.ts";
 
 export class JADOUListModal extends Modal {
 	private plugin: JADOU;
@@ -171,9 +172,8 @@ export class JADOUListModal extends Modal {
 
 	private addFurigana() {
 		addMDRubyWrapper(
-			this.plugin.editorDuringLookup,
+			this.plugin,
 			this.keystring,
-			this.plugin.originalKeystring!,
 			this.units[this.selectedIndex]!.kana,
 		);
 		this.close();
@@ -186,7 +186,7 @@ export class JADOUListModal extends Modal {
 		this.close();
 		setTimeout(() => {
 			void (async () => {
-				const resultView = await this.plugin.getGlossaryView();
+				const resultView = await getGlossaryView(this.plugin);
 				const clonedResultEl = formattedResultEl.cloneNode(
 					true,
 				) as HTMLElement;

@@ -1,3 +1,9 @@
+export const ICONS: Record<string, string> = {
+	lookUp: "languages",
+	selectSentence: "wand",
+	glossary: "table-properties",
+};
+
 export const SENTENCE_SEPARATORS = ["．", "。", " ", "　", "？", "！"];
 
 export const DATA_FOLDER = "dict";
@@ -59,8 +65,6 @@ export const DATA_FILES = [
 	},
 ];
 
-export const JADOU_ICON = "swatch-book";
-
 export const GLOSSARY_VIEW_TYPE = "jadou-glossary-view";
 
 export const JADOU_GLOSSARY_PANEL_NAME = "JADOU glossary";
@@ -72,7 +76,7 @@ export const STORE_NAMES = {
 	kanjiIndex: "kanjiIndex",
 };
 
-export const SUPPORTED_VIEWS = ["markdown", "pdf", "lineage"]
+export const SUPPORTED_VIEWS = ["markdown", "pdf", "lineage"];
 
 export const ABBREVIATIONS: Record<string, string> = {
 	// Reading

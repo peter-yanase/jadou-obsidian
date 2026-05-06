@@ -9,7 +9,7 @@ export class dictLoader {
 	}
 
 	async loadArrayBuffer(file: string) {
-		const adapter = this.plugin.app.vault.adapter;
+		const { adapter } = this.plugin.app.vault;
 		const binaryData = await adapter.readBinary(
 			`${this.plugin.dataFolderPath}/${file}`,
 		);

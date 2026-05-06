@@ -1,5 +1,5 @@
-import type { Entry, DictionaryObject, WorkerMessage } from "./types.ts";
-import { DB_NAME, STORE_NAMES } from "./utils/constants.ts";
+import type { Entry, DictionaryObject, WorkerMessage } from "types.ts";
+import { DB_NAME, STORE_NAMES } from "utils/constants.ts";
 import { getReadableStream } from "utils/getstream.ts";
 
 const Database = (() => {

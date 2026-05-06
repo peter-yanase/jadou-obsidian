@@ -10,9 +10,7 @@ export async function isDownloaded(
 	const fileName = dataFile.name;
 	const dataPath = `${plugin.dataFolderPath}/${fileName}`;
 
-	if (await adapter.exists(dataPath)) {
-		return true;
-	}
+	if (await adapter.exists(dataPath)) return true;
 
 	new Notice(`Downloading ${fileName}…`);
 
