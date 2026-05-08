@@ -27,6 +27,8 @@ export class JADOUListModal extends Modal {
 			if (a.kanaCommon === b.kanaCommon) return 0;
 			return a.kanaCommon ? -1 : 1;
 		});
+		
+		this.setTitle(this.units[0]!.kanji)
 
 		this.setupContainer();
 		this.units.forEach((unit, index) => {
@@ -95,7 +97,6 @@ export class JADOUListModal extends Modal {
 				}
 			});
 		}
-		resultHeaderEl.appendText(`【${unit.kanji}】`);
 		resultEl.appendChild(resultHeaderEl);
 
 		const resultMainEl = createEl("ol");
@@ -114,7 +115,7 @@ export class JADOUListModal extends Modal {
 			].join("; ");
 
 			if (tags) {
-				const tagsEl = createEl("span");
+				const tagsEl = createSpan();
 				tagsEl.appendText(" (");
 
 				const taglistEl = createEl("strong");
@@ -148,9 +149,9 @@ export class JADOUListModal extends Modal {
 			this.swallow(evt);
 
 			if (evt.button === 0) {
-				setTimeout(() => this.addToGlossary(), 0);
+				activeWindow.setTimeout(() => this.addToGlossary(), 0);
 			} else if (evt.button === 2) {
-				setTimeout(() => this.addFurigana(), 0);
+				activeWindow.setTimeout(() => this.addFurigana(), 0);
 			}
 		});
 	}
@@ -184,7 +185,7 @@ export class JADOUListModal extends Modal {
 			this.selectedIndex
 		] as HTMLElement;
 		this.close();
-		setTimeout(() => {
+		activeWindow.setTimeout(() => {
 			void (async () => {
 				const resultView = await getGlossaryView(this.plugin);
 				const clonedResultEl = formattedResultEl.cloneNode(

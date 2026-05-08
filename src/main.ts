@@ -15,12 +15,12 @@ export default class JADOU extends Plugin {
 	originalKeystring: string | null = null;
 	dataFolderPath: string = `${this.manifest.dir}/${DATA_FOLDER}`;
 
-	async onload() {
+	onload() {
 		this.addSettingTab(new JADOUSettingsTab(this.app, this));
 		this.registerView(GLOSSARY_VIEW_TYPE, (leaf) => new GlossaryView(leaf));
 		addCommands(this);
 
-		initializePlugin(this);
+		void initializePlugin(this);
 	}
 
 	onunload() {

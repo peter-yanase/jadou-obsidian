@@ -25,7 +25,7 @@ export function triggerLookUp(plugin: JADOU) {
 	// Next we make sure we are not focused on an embedded PDF
 	// (If something is selected in the editor and then the embeded PDF is focused on without selection,
 	// Obsidian will still call the selection from the editor.)
-	const { activeElement } = document;
+	const { activeElement } = activeDocument;
 	if (
 		activeElement?.hasClass("pdf-embed") ||
 		activeElement?.hasClass("textLayer")

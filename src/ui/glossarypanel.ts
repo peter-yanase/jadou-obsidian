@@ -29,16 +29,16 @@ export class GlossaryView extends ItemView {
 		this.contentEl.empty();
 		this.contentEl.addClass("glossary");
 
-		const navigationEl = document.createElement("nav");
+		const navigationEl = createEl("nav");
 
-		const warningEl = document.createElement("span");
+		const warningEl = createSpan();
 		warningEl.addClass("warning");
 		warningEl.textContent =
 			"Will be emptied on closing Obsidian or disabling the plugin.";
 		navigationEl.appendChild(warningEl);
 
 		const addButton = (label: string, handler: () => void) => {
-			const buttonEl = document.createElement("button");
+			const buttonEl = createEl("button");
 			buttonEl.textContent = label;
 			buttonEl.addEventListener("click", handler);
 			navigationEl.appendChild(buttonEl);
@@ -49,7 +49,7 @@ export class GlossaryView extends ItemView {
 
 		this.contentEl.appendChild(navigationEl);
 
-		const glossaryEl = document.createElement("ul");
+		const glossaryEl = createEl("ul");
 		this.contentEl.appendChild(glossaryEl);
 
 		new Sorter(glossaryEl);
