@@ -1,4 +1,9 @@
-# JADOU
+<h1 align="center">JADOU</h1>
+<p align="center">
+  <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpeter-yanase%2Fjadou-obsidian%2Fraw%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=version&style=for-the-badge&label=version">
+  <img src="https://img.shields.io/github/downloads/peter-yanase/jadou-obsidian/total?style=for-the-badge" alt="downloads badge">
+  <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpeter-yanase%2Fjadou-obsidian%2Fraw%2Frefs%2Fheads%2Fmain%2Fpackage.json&query=license&style=for-the-badge&label=license">
+</p>
 
 JADOU is an evolving, in‑context Japanese language toolbox created by a specialist in Japanese language and culture. You can look up readings and meanings, insert furigana, build glossaries, and automatically select sentences with it. Everything runs locally with no network access.
 
@@ -21,9 +26,13 @@ JADOU is an evolving, in‑context Japanese language toolbox created by a specia
 - Right‑click an entry to remove it from the glossary.
 - Press <kb>Space</kb> or right‑click an entry in the dictionary panel to insert furigana instead of adding it to the glossary.
 
-## Roadmap
+## JADOU ♥️ Advanced Ruby 
 
-Feature requests, bug reports, and pull requests are welcome.
+To enable ruby rendering and editing you need to install [Advanced Ruby](https://github.com/peter-yanase/obsidian-advanced-ruby) as well. 
+
+![Advanced Ruby with JADOU](https://github.com/peter-yanase/obsidian-advanced-ruby/raw/refs/heads/master/assets/advanced_ruby_with_jadou.gif)
+
+## Roadmap
 
 ### Coming
 
