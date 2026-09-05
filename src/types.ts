@@ -1,4 +1,4 @@
-import type { IpadicFeatures } from "@patdx/kuromoji";
+import { type IpadicFeatures } from '@patdx/kuromoji';
 
 export interface DataFile {
 	name: string;
@@ -10,11 +10,11 @@ export type Tokenizer = {
 };
 
 export type WorkerMessage =
-  | { type: "init" }
-  | { type: "build"; binaryData: ArrayBuffer }
-  | { type: "ready" }
-  | { type: "lookup"; keystring: string }
-  | { type: "result"; entries: Entry[]; keystring: string };
+	| { type: 'init' }
+	| { type: 'build'; binaryData: ArrayBuffer }
+	| { type: 'ready' }
+	| { type: 'lookup'; keystring: string }
+	| { type: 'result'; entries: Entry[]; keystring: string };
 
 export interface Kanji {
 	text: string;

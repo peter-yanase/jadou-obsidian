@@ -1,9 +1,10 @@
-import type JADOU from "main.ts";
-import { TokenizerBuilder } from "@patdx/kuromoji";
-import { DATA_FILES } from "utils/constants.ts";
-import { dictLoader } from "utils/dictionaryloader.ts";
-import { isDownloaded } from "utils/downloader.ts";
-import { setupWorker } from "utils/worker-handler.ts";
+import { TokenizerBuilder } from '@patdx/kuromoji';
+
+import type JADOU from 'main';
+import { DATA_FILES } from 'utils/constants';
+import { dictLoader } from 'utils/dictionaryloader';
+import { isDownloaded } from 'utils/downloader';
+import { setupWorker } from 'utils/worker-handler';
 
 export async function initializePlugin(plugin: JADOU) {
 	const { adapter } = plugin.app.vault;

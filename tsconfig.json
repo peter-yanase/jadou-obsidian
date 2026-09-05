@@ -1,27 +1,27 @@
 {
-	"compilerOptions": {
-		"paths": {
-			"*": ["./src/*"]
-		},
-		"inlineSourceMap": true,
-		"inlineSources": true,
-		"module": "esnext",
-		"target": "es2018",
-		"allowJs": true,
-		"noImplicitAny": true,
-		"noImplicitThis": true,
-		"noImplicitReturns": true,
-		"moduleResolution": "bundler",
-		"importHelpers": true,
-		"noUncheckedIndexedAccess": true,
-		"isolatedModules": true,
-		"strictNullChecks": true,
-		"strictBindCallApply": true,
-		"allowSyntheticDefaultImports": true,
-		"useUnknownInCatchVariables": true,
-		"allowImportingTsExtensions": true,
-		"noEmit": true,
-		"lib": ["DOM", "ES5", "ES6", "ES7"]
-	},
-	"include": ["src/**/*.ts"]
+  "compilerOptions": {
+    "paths": {
+      "*": ["./src/*"]
+    },
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "module": "esnext",
+    "target": "es2025",
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "importHelpers": true,
+    "noEmit": true,
+    "lib": ["ES2025", "DOM"]
+  },
+  "include": ["src/**/*.ts"]
 }

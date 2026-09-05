@@ -1,6 +1,6 @@
-import type { Entry, DictionaryObject, WorkerMessage } from "types.ts";
-import { DB_NAME, STORE_NAMES } from "utils/constants.ts";
-import { getReadableStream } from "utils/getstream.ts";
+import type { Entry, DictionaryObject, WorkerMessage } from 'types';
+import { DB_NAME, STORE_NAMES } from 'utils/constants';
+import { getReadableStream } from 'utils/getstream';
 
 const Database = (() => {
 	let db: IDBDatabase | null = null;
@@ -12,7 +12,7 @@ const Database = (() => {
 			// Create the object stores on upgrade
 			DBOpenRequest.onupgradeneeded = () => {
 				const db = DBOpenRequest.result;
-				db.createObjectStore(STORE_NAMES.entries, { keyPath: "id" });
+				db.createObjectStore(STORE_NAMES.entries, { keyPath: 'id' });
 				db.createObjectStore(STORE_NAMES.kanjiIndex);
 			};
 
@@ -23,7 +23,7 @@ const Database = (() => {
 			DBOpenRequest.onerror = () =>
 				reject(
 					new Error(
-						DBOpenRequest.error?.message ?? "IndexedDB error",
+						DBOpenRequest.error?.message ?? 'IndexedDB error',
 					),
 				);
 		});
@@ -64,7 +64,7 @@ const Dictionary = (() => {
 
 		const transaction = Database.transaction(
 			[STORE_NAMES.entries, STORE_NAMES.kanjiIndex],
-			"readwrite",
+			'readwrite',
 		);
 		const entriesStore = transaction.objectStore(STORE_NAMES.entries);
 		for (const entry of entries) entriesStore.put(entry);
@@ -77,13 +77,13 @@ const Dictionary = (() => {
 			transaction.onerror = () =>
 				reject(
 					new Error(
-						transaction.error?.message ?? "Transaction error",
+						transaction.error?.message ?? 'Transaction error',
 					),
 				);
 			transaction.onabort = () =>
 				reject(
 					new Error(
-						transaction.error?.message ?? "Transaction aborted",
+						transaction.error?.message ?? 'Transaction aborted',
 					),
 				);
 		});
@@ -92,7 +92,7 @@ const Dictionary = (() => {
 	async function lookupKanji(keystring: string) {
 		const transaction = Database.transaction(
 			[STORE_NAMES.kanjiIndex, STORE_NAMES.entries],
-			"readonly",
+			'readonly',
 		);
 		const kanjiIndexStore = transaction.objectStore(STORE_NAMES.kanjiIndex);
 		const entriesStore = transaction.objectStore(STORE_NAMES.entries);
@@ -119,7 +119,7 @@ const Handlers = {
 		// Check if there are any entries
 		const transaction = Database.transaction(
 			[STORE_NAMES.entries],
-			"readonly",
+			'readonly',
 		);
 		const entriesStore = transaction.objectStore(STORE_NAMES.entries);
 		const count = await new Promise<number>((resolve) => {
@@ -128,7 +128,7 @@ const Handlers = {
 			DBRequest.onerror = () => resolve(0);
 		});
 
-		postMessage({ type: count > 0 ? "ready" : "build" });
+		postMessage({ type: count > 0 ? 'ready' : 'build' });
 	},
 
 	async build(message: { binaryData: ArrayBuffer }) {
@@ -137,12 +137,12 @@ const Handlers = {
 		const dictionary = JSON.parse(text) as DictionaryObject;
 
 		await Dictionary.storeDictionary(dictionary);
-		postMessage({ type: "ready" });
+		postMessage({ type: 'ready' });
 	},
 
 	async lookup(message: { keystring: string }) {
 		const entries = await Dictionary.lookupKanji(message.keystring);
-		postMessage({ type: "result", entries, keystring: message.keystring });
+		postMessage({ type: 'result', entries, keystring: message.keystring });
 	},
 };
 
@@ -150,13 +150,13 @@ onmessage = (event: MessageEvent<WorkerMessage>) => {
 	const message = event.data;
 
 	switch (message.type) {
-		case "init":
+		case 'init':
 			void Handlers.init();
 			break;
-		case "build":
+		case 'build':
 			void Handlers.build(message);
 			break;
-		case "lookup":
+		case 'lookup':
 			void Handlers.lookup(message);
 			break;
 	}

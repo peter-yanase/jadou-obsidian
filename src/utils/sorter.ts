@@ -8,19 +8,19 @@ export class Sorter {
 	}
 
 	private getTarget(event: DragEvent): HTMLElement | null {
-		return (event.target as HTMLElement)?.closest("li.result");
+		return (event.target as HTMLElement)?.closest('li.result');
 	}
 
 	private init() {
-		this.listEl.addEventListener("dragstart", (event) => {
+		this.listEl.addEventListener('dragstart', (event) => {
 			this.draggingEl = this.getTarget(event);
 		});
 
-		this.listEl.addEventListener("dragend", () => {
+		this.listEl.addEventListener('dragend', () => {
 			this.draggingEl = null;
 		});
 
-		this.listEl.addEventListener("dragover", (event) => {
+		this.listEl.addEventListener('dragover', (event) => {
 			if (!this.draggingEl) return;
 			// Allow dropping
 			event.preventDefault();

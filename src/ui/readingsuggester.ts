@@ -1,9 +1,10 @@
-import type JADOU from "main.ts";
-import type { SemanticUnit } from "types.ts";
-import { Modal } from "obsidian";
-import { getGlossaryView } from "ui/glossaryview.ts";
-import { ABBREVIATIONS } from "utils/constants.ts";
-import { addMDRubyWrapper } from "utils/rubywrapper.ts";
+import { Modal } from 'obsidian';
+
+import type JADOU from 'main';
+import type { SemanticUnit } from 'types';
+import { getGlossaryView } from 'ui/glossaryview';
+import { ABBREVIATIONS } from 'utils/constants';
+import { addMDRubyWrapper } from 'utils/rubywrapper';
 
 export class JADOUListModal extends Modal {
 	private plugin: JADOU;
@@ -27,8 +28,8 @@ export class JADOUListModal extends Modal {
 			if (a.kanaCommon === b.kanaCommon) return 0;
 			return a.kanaCommon ? -1 : 1;
 		});
-		
-		this.setTitle(this.units[0]!.kanji)
+
+		this.setTitle(this.units[0]!.kanji);
 
 		this.setupContainer();
 		this.units.forEach((unit, index) => {
@@ -37,10 +38,10 @@ export class JADOUListModal extends Modal {
 			this.resultsEl!.appendChild(resultEl);
 		});
 		this.resultsEl!.addEventListener(
-			"mouseenter",
+			'mouseenter',
 			(event) => {
 				const closestResultEl = (event.target as HTMLElement).closest(
-					".result",
+					'.result',
 				);
 				if (!closestResultEl) return;
 
@@ -61,14 +62,14 @@ export class JADOUListModal extends Modal {
 	private setupContainer() {
 		const { modalEl, containerEl } = this;
 
-		modalEl.addClass("jadou-modal");
+		modalEl.addClass('jadou-modal');
 
 		// Shift focus to the container
-		containerEl.setAttribute("tabindex", "0");
+		containerEl.setAttribute('tabindex', '0');
 		containerEl.focus();
 
-		const resultsEl = createEl("ul");
-		resultsEl.addClass("results");
+		const resultsEl = createEl('ul');
+		resultsEl.addClass('results');
 		this.resultsEl = resultsEl;
 		this.contentEl.appendChild(resultsEl);
 	}
@@ -79,51 +80,51 @@ export class JADOUListModal extends Modal {
 	}
 
 	private buildResultEl(unit: SemanticUnit, index: number) {
-		const resultEl = createEl("li");
-		resultEl.addClass("result");
+		const resultEl = createEl('li');
+		resultEl.addClass('result');
 
-		const resultHeaderEl = createEl("strong");
-		resultHeaderEl.addClass("result-header");
+		const resultHeaderEl = createEl('strong');
+		resultHeaderEl.addClass('result-header');
 		resultHeaderEl.appendText(unit.kana);
 		if (unit.kanaCommon) {
-			resultHeaderEl.setAttribute("data-kanaflag", "common");
+			resultHeaderEl.setAttribute('data-kanaflag', 'common');
 		}
 		if (unit.kanaTags.length > 0) {
 			unit.kanaTags.forEach((element: string) => {
 				// Filter out "gikun"
-				if (element !== "gikun") {
+				if (element !== 'gikun') {
 					// Add remaining 1 tag
-					resultHeaderEl.setAttribute("data-kanaflag", element);
+					resultHeaderEl.setAttribute('data-kanaflag', element);
 				}
 			});
 		}
 		resultEl.appendChild(resultHeaderEl);
 
-		const resultMainEl = createEl("ol");
-		resultMainEl.addClass("result-main");
+		const resultMainEl = createEl('ol');
+		resultMainEl.addClass('result-main');
 		resultEl.appendChild(resultMainEl);
 		for (const sense of unit.senses) {
-			const senseEl = createEl("li");
+			const senseEl = createEl('li');
 
 			senseEl.appendText(
-				sense.gloss.map((gloss) => gloss.text).join("; "),
+				sense.gloss.map((gloss) => gloss.text).join('; '),
 			);
 
 			const tags = [
 				...sense.dialect.map((dialect) => ABBREVIATIONS[dialect]!),
 				...sense.misc.map((misc) => ABBREVIATIONS[misc]!),
-			].join("; ");
+			].join('; ');
 
 			if (tags) {
 				const tagsEl = createSpan();
-				tagsEl.appendText(" (");
+				tagsEl.appendText(' (');
 
-				const taglistEl = createEl("strong");
-				taglistEl.addClass("tags");
+				const taglistEl = createEl('strong');
+				taglistEl.addClass('tags');
 				taglistEl.appendText(tags);
 				tagsEl.appendChild(taglistEl);
 
-				tagsEl.appendText(")");
+				tagsEl.appendText(')');
 
 				senseEl.appendChild(tagsEl);
 			}
@@ -133,7 +134,7 @@ export class JADOUListModal extends Modal {
 
 		// Update the selected result
 		if (index === this.selectedIndex) {
-			resultEl.addClass("is-selected");
+			resultEl.addClass('is-selected');
 		}
 
 		return resultEl;
@@ -141,17 +142,17 @@ export class JADOUListModal extends Modal {
 
 	private attachMouseBehavior(resultEl: HTMLElement, index: number) {
 		// Update selection on hover
-		resultEl.addEventListener("mouseenter", () => {
+		resultEl.addEventListener('mouseenter', () => {
 			this.updateSelection(index);
 		});
 
-		resultEl.addEventListener("mousedown", (evt: MouseEvent) => {
+		resultEl.addEventListener('mousedown', (evt: MouseEvent) => {
 			this.swallow(evt);
 
 			if (evt.button === 0) {
-				activeWindow.setTimeout(() => this.addToGlossary(), 0);
+				window.setTimeout(() => this.addToGlossary(), 0);
 			} else if (evt.button === 2) {
-				activeWindow.setTimeout(() => this.addFurigana(), 0);
+				window.setTimeout(() => this.addFurigana(), 0);
 			}
 		});
 	}
@@ -163,11 +164,11 @@ export class JADOUListModal extends Modal {
 		const children = this.resultsEl!.children;
 
 		// Deselect previous
-		children[this.selectedIndex]!.removeClass("is-selected");
+		children[this.selectedIndex]!.removeClass('is-selected');
 
 		// Select new
-		children[newIndex]!.addClass("is-selected");
-		children[newIndex]!.scrollIntoView({ block: "nearest" });
+		children[newIndex]!.addClass('is-selected');
+		children[newIndex]!.scrollIntoView({ block: 'nearest' });
 		this.selectedIndex = newIndex;
 	}
 
@@ -185,7 +186,7 @@ export class JADOUListModal extends Modal {
 			this.selectedIndex
 		] as HTMLElement;
 		this.close();
-		activeWindow.setTimeout(() => {
+		window.setTimeout(() => {
 			void (async () => {
 				const resultView = await getGlossaryView(this.plugin);
 				const clonedResultEl = formattedResultEl.cloneNode(
@@ -205,7 +206,7 @@ export class JADOUListModal extends Modal {
 			Escape: () => this.close(),
 		};
 
-		this.containerEl.addEventListener("keydown", (event) => {
+		this.containerEl.addEventListener('keydown', (event) => {
 			this.swallow(event);
 			const action = actions[event.code];
 			if (action) {

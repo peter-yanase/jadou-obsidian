@@ -1,14 +1,15 @@
-import type JADOU from "main.ts";
-import { MarkdownView, Notice, View } from "obsidian";
-import { SUPPORTED_VIEWS } from "utils/constants.ts";
-import { lookUpKeystring } from "utils/worker-handler.ts";
+import { MarkdownView, Notice, View } from 'obsidian';
+
+import type JADOU from 'main';
+import { SUPPORTED_VIEWS } from 'utils/constants';
+import { lookUpKeystring } from 'utils/worker-handler';
 
 export function triggerLookUp(plugin: JADOU) {
 	const { workspace } = plugin.app;
 	const viewType = workspace.getActiveViewOfType(View)!.getViewType();
 
 	if (!SUPPORTED_VIEWS.includes(viewType))
-		return new Notice("Unsupported view");
+		return new Notice('Unsupported view');
 
 	plugin.editorDuringLookUp = workspace.activeEditor?.editor;
 
@@ -19,7 +20,7 @@ export function triggerLookUp(plugin: JADOU) {
 
 	// First we make sure we are not in reading mode.
 	// (In Obsidian, the selection from editing view is callable even if the user is in reading view.)
-	if (workspace.getActiveViewOfType(MarkdownView)?.getMode() === "preview")
+	if (workspace.getActiveViewOfType(MarkdownView)?.getMode() === 'preview')
 		return showNoSelectionMsg();
 
 	// Next we make sure we are not focused on an embedded PDF
@@ -27,8 +28,8 @@ export function triggerLookUp(plugin: JADOU) {
 	// Obsidian will still call the selection from the editor.)
 	const { activeElement } = activeDocument;
 	if (
-		activeElement?.hasClass("pdf-embed") ||
-		activeElement?.hasClass("textLayer")
+		activeElement?.hasClass('pdf-embed') ||
+		activeElement?.hasClass('textLayer')
 	)
 		return showNoSelectionMsg();
 
@@ -43,6 +44,6 @@ export function triggerLookUp(plugin: JADOU) {
 	}
 
 	function showNoSelectionMsg() {
-		new Notice("Nothing selected");
+		new Notice('Nothing selected');
 	}
 }

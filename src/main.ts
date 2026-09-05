@@ -1,12 +1,12 @@
-import type { Editor } from "obsidian";
-import { Plugin } from "obsidian";
-import JADOUWorker from "jadou.worker";
-import { addCommands } from "ui/commands.ts";
-import { GlossaryView } from "ui/glossarypanel.ts";
-import { JADOUSettingsTab } from "ui/settingstab.ts";
-import { DATA_FOLDER, GLOSSARY_VIEW_TYPE } from "utils/constants.ts";
-import { initializePlugin } from "utils/plugininitalizer.ts";
-import { terminateWorker } from "utils/worker-handler.ts";
+import { Plugin, type Editor } from 'obsidian';
+
+import JADOUWorker from 'jadou.worker';
+import { addCommands } from 'ui/commands';
+import { GlossaryView } from 'ui/glossarypanel';
+import { JADOUSettingsTab } from 'ui/settingstab';
+import { DATA_FOLDER, GLOSSARY_VIEW_TYPE } from 'utils/constants';
+import { initializePlugin } from 'utils/plugininitalizer';
+import { terminateWorker } from 'utils/worker-handler';
 
 export default class JADOU extends Plugin {
 	worker: Worker | null = new JADOUWorker();

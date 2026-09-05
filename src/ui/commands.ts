@@ -1,6 +1,6 @@
-import type JADOU from "main.ts";
-import { lookUpCmds } from "ui/commands/lookup.ts";
-import { selectSentenceCmds } from "ui/commands/selectsentence.ts";
+import type JADOU from 'main';
+import { lookUpCmds } from 'ui/commands/lookup';
+import { selectSentenceCmds } from 'ui/commands/selectsentence';
 
 // Wrapper function
 export function addCommands(plugin: JADOU) {

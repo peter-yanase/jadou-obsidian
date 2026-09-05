@@ -1,5 +1,5 @@
-import type JADOU from "main.ts";
-import { getReadableStream } from "utils/getstream.ts";
+import type JADOU from 'main';
+import { getReadableStream } from 'utils/getstream';
 
 export class dictLoader {
 	plugin: JADOU;

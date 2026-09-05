@@ -1,6 +1,7 @@
-import type JADOU from "main.ts";
-import { Notice, requestUrl, DataAdapter } from "obsidian";
-import { DataFile } from "types.ts";
+import { Notice, requestUrl, DataAdapter } from 'obsidian';
+
+import type JADOU from 'main';
+import type { DataFile } from 'types';
 
 export async function isDownloaded(
 	plugin: JADOU,

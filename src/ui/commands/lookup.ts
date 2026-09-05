@@ -1,16 +1,16 @@
-import type JADOU from "main.ts";
-import { triggerLookUp } from "ui/lookuptrigger.ts";
-import { ICONS } from "utils/constants.ts";
-import { lookUpKeystring } from "utils/worker-handler.ts";
+import type JADOU from 'main';
+import { triggerLookUp } from 'ui/lookuptrigger';
+import { ICONS } from 'utils/constants';
+import { lookUpKeystring } from 'utils/worker-handler';
 
 export const lookUpCmds = [cmdLookUp, clickLookUp, ribbonLookup];
 
-const lookUpName = "Look up expression";
-const lookUpIcon = ICONS["lookUp"] ?? "";
+const lookUpName = 'Look up expression';
+const lookUpIcon = ICONS['lookUp'] ?? '';
 
 function cmdLookUp(plugin: JADOU) {
 	plugin.addCommand({
-		id: "lookup",
+		id: 'lookup',
 		name: lookUpName,
 		icon: lookUpIcon,
 		callback: () => {
@@ -22,7 +22,7 @@ function cmdLookUp(plugin: JADOU) {
 // This does not work inside PDFs because the PDF viewer has a separate context menu
 function clickLookUp(plugin: JADOU) {
 	plugin.registerEvent(
-		plugin.app.workspace.on("editor-menu", (menu, editor) => {
+		plugin.app.workspace.on('editor-menu', (menu, editor) => {
 			const selection = editor.getSelection();
 			if (!selection) return;
 			plugin.originalKeystring = selection;

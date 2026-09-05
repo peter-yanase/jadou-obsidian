@@ -1,5 +1,5 @@
-import type JADOU from "main.ts";
-import { hasKanji } from "utils/stringchecker.ts";
+import type JADOU from 'main';
+import { hasKanji } from 'utils/stringchecker';
 
 export function addMDRubyWrapper(
 	plugin: JADOU,
@@ -26,14 +26,14 @@ export function addMDRubyWrapper(
 		reading: string,
 	): Map<string, string> {
 		const kanjiBlocks: string[] = [];
-		let capturePattern = "";
+		let capturePattern = '';
 		let followsKanji = false;
 
 		for (const character of surface) {
 			if (hasKanji(character)) {
 				if (!followsKanji) {
 					// Add a kanji capture group
-					capturePattern += "(.+)";
+					capturePattern += '(.+)';
 					// Start a new kanji block
 					kanjiBlocks.push(character);
 
@@ -57,7 +57,7 @@ export function addMDRubyWrapper(
 		// Create map
 		const kanjiReadingMap = new Map<string, string>();
 		kanjiBlocks.forEach((kanjiBlock, index) => {
-			kanjiReadingMap.set(kanjiBlock, kanjiReadings[index] ?? "");
+			kanjiReadingMap.set(kanjiBlock, kanjiReadings[index] ?? '');
 		});
 
 		return kanjiReadingMap;
