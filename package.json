@@ -17,8 +17,8 @@
     "furigana",
     "sentence segmenting"
   ],
-  "license": "PolyForm Perimeter v1.0.1",
   "author": "Peter Yanase",
+  "license": "PolyForm Perimeter v1.0.1",
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/node": "26.4.1",
