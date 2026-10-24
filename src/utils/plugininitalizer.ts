@@ -1,7 +1,7 @@
 import { TokenizerBuilder } from '@patdx/kuromoji';
 
 import type JADOU from 'main';
-import { DATA_FILES } from 'utils/constants';
+import { DATA_FILES } from 'const/constants';
 import { dictLoader } from 'utils/dictionaryloader';
 import { isDownloaded } from 'utils/downloader';
 import { setupWorker } from 'utils/worker-handler';

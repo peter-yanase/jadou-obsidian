@@ -1,4 +1,4 @@
-import type { Entry, SemanticUnit } from 'types';
+import type { Entry, SemanticUnit } from 'const/types';
 
 export function extractSemanticUnits(
 	entries: Entry[],
@@ -10,7 +10,8 @@ export function extractSemanticUnits(
 		// Find the kanji object matching the keystring
 		const matchingKanjiObject = entry.kanji.find(
 			(kanjiObject) => kanjiObject.text === keystring,
-		)!;
+		);
+		if (!matchingKanjiObject) continue;
 
 		// Discard the entry if it has the "sK" tag
 		if (matchingKanjiObject.tags.includes('sK')) continue;

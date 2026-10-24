@@ -1,27 +1,27 @@
 {
-  "compilerOptions": {
-    "paths": {
-      "*": ["./src/*"]
+    "compilerOptions": {
+        "paths": {
+            "*": ["./src/*"]
+        },
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "module": "esnext",
+        "target": "es2025",
+        "strict": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedIndexedAccess": true,
+        "moduleResolution": "bundler",
+        "isolatedModules": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
+        "removeComments": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "importHelpers": true,
+        "noEmit": true,
+        "lib": ["ES2025", "DOM"]
     },
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "module": "esnext",
-    "target": "es2025",
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "moduleResolution": "bundler",
-    "isolatedModules": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-    "removeComments": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "importHelpers": true,
-    "noEmit": true,
-    "lib": ["ES2025", "DOM"]
-  },
-  "include": ["src/**/*.ts"]
+    "include": ["src/**/*.ts"]
 }

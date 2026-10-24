@@ -1,10 +1,10 @@
 {
-	"id": "jadou",
-	"name": "JADOU",
-	"version": "1.1.0",
-	"minAppVersion": "1.13.1",
-	"description": "In-context Japanese language toolbox.",
-	"author": "Peter Yanase",
-	"fundingUrl": "https://ko-fi.com/kdijapan",
-	"isDesktopOnly": false
+    "id": "jadou",
+    "name": "JADOU",
+    "version": "1.1.1",
+    "minAppVersion": "1.13.7",
+    "description": "In-context Japanese language toolbox.",
+    "author": "Peter Yanase",
+    "fundingUrl": "https://ko-fi.com/kdijapan",
+    "isDesktopOnly": false
 }

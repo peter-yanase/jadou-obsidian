@@ -1,7 +1,7 @@
 import { Notice, requestUrl, DataAdapter } from 'obsidian';
 
 import type JADOU from 'main';
-import type { DataFile } from 'types';
+import type { DataFile } from 'const/types';
 
 export async function isDownloaded(
 	plugin: JADOU,

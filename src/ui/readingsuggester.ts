@@ -1,9 +1,9 @@
 import { Modal } from 'obsidian';
 
 import type JADOU from 'main';
-import type { SemanticUnit } from 'types';
-import { getGlossaryView } from 'ui/glossaryview';
-import { ABBREVIATIONS } from 'utils/constants';
+import type { SemanticUnit } from 'const/types';
+import { getGlossaryView } from 'ui/getGlossaryView';
+import { ABBREVIATIONS } from 'const/constants';
 import { addMDRubyWrapper } from 'utils/rubywrapper';
 
 export class JADOUListModal extends Modal {
@@ -29,15 +29,15 @@ export class JADOUListModal extends Modal {
 			return a.kanaCommon ? -1 : 1;
 		});
 
-		this.setTitle(this.units[0]!.kanji);
+		this.setTitle(this.units[0]?.kanji ?? '');
 
 		this.setupContainer();
 		this.units.forEach((unit, index) => {
 			const resultEl = this.buildResultEl(unit, index);
 			this.attachMouseBehavior(resultEl, index);
-			this.resultsEl!.appendChild(resultEl);
+			this.resultsEl?.appendChild(resultEl);
 		});
-		this.resultsEl!.addEventListener(
+		this.resultsEl?.addEventListener(
 			'mouseenter',
 			(event) => {
 				const closestResultEl = (event.target as HTMLElement).closest(
@@ -45,9 +45,10 @@ export class JADOUListModal extends Modal {
 				);
 				if (!closestResultEl) return;
 
-				const hoveredOver = Array.from(
-					this.resultsEl!.children,
-				).indexOf(closestResultEl);
+				const children = this.resultsEl?.children;
+				if (!children) return;
+				const hoveredOver =
+					Array.from(children).indexOf(closestResultEl);
 				this.updateSelection(hoveredOver);
 			},
 			true,
@@ -111,8 +112,8 @@ export class JADOUListModal extends Modal {
 			);
 
 			const tags = [
-				...sense.dialect.map((dialect) => ABBREVIATIONS[dialect]!),
-				...sense.misc.map((misc) => ABBREVIATIONS[misc]!),
+				...sense.dialect.map((dialect) => ABBREVIATIONS[dialect]),
+				...sense.misc.map((misc) => ABBREVIATIONS[misc]),
 			].join('; ');
 
 			if (tags) {
@@ -150,9 +151,13 @@ export class JADOUListModal extends Modal {
 			this.swallow(evt);
 
 			if (evt.button === 0) {
-				window.setTimeout(() => this.addToGlossary(), 0);
+				window.setTimeout(() => {
+					(this.addToGlossary(), 0);
+				});
 			} else if (evt.button === 2) {
-				window.setTimeout(() => this.addFurigana(), 0);
+				window.setTimeout(() => {
+					(this.addFurigana(), 0);
+				});
 			}
 		});
 	}
@@ -161,14 +166,15 @@ export class JADOUListModal extends Modal {
 		// Clamp index to valid range
 		newIndex = Math.max(0, Math.min(newIndex, this.units.length - 1));
 
-		const children = this.resultsEl!.children;
+		const children = this.resultsEl?.children;
+		if (!children) return;
 
 		// Deselect previous
-		children[this.selectedIndex]!.removeClass('is-selected');
+		children[this.selectedIndex]?.removeClass('is-selected');
 
 		// Select new
-		children[newIndex]!.addClass('is-selected');
-		children[newIndex]!.scrollIntoView({ block: 'nearest' });
+		children[newIndex]?.addClass('is-selected');
+		children[newIndex]?.scrollIntoView({ block: 'nearest' });
 		this.selectedIndex = newIndex;
 	}
 
@@ -176,13 +182,13 @@ export class JADOUListModal extends Modal {
 		addMDRubyWrapper(
 			this.plugin,
 			this.keystring,
-			this.units[this.selectedIndex]!.kana,
+			this.units[this.selectedIndex]?.kana ?? '',
 		);
 		this.close();
 	}
 
 	private addToGlossary() {
-		const formattedResultEl = this.resultsEl!.children[
+		const formattedResultEl = this.resultsEl?.children[
 			this.selectedIndex
 		] as HTMLElement;
 		this.close();
@@ -199,11 +205,21 @@ export class JADOUListModal extends Modal {
 
 	private registerKeyHandlers() {
 		const actions: Record<string, () => void> = {
-			ArrowDown: () => this.updateSelection(this.selectedIndex + 1),
-			ArrowUp: () => this.updateSelection(this.selectedIndex - 1),
-			Enter: () => this.addToGlossary(),
-			Space: () => this.addFurigana(),
-			Escape: () => this.close(),
+			ArrowDown: () => {
+				this.updateSelection(this.selectedIndex + 1);
+			},
+			ArrowUp: () => {
+				this.updateSelection(this.selectedIndex - 1);
+			},
+			Enter: () => {
+				this.addToGlossary();
+			},
+			Space: () => {
+				this.addFurigana();
+			},
+			Escape: () => {
+				this.close();
+			},
 		};
 
 		this.containerEl.addEventListener('keydown', (event) => {

@@ -1,5 +1,5 @@
-import type { Entry, DictionaryObject, WorkerMessage } from 'types';
-import { DB_NAME, STORE_NAMES } from 'utils/constants';
+import type { Entry, DictionaryObject, WorkerMessage } from 'const/types';
+import { DB_NAME, STORE_NAMES } from 'const/constants';
 import { getReadableStream } from 'utils/getstream';
 
 const Database = (() => {
@@ -20,17 +20,18 @@ const Database = (() => {
 				db = DBOpenRequest.result;
 				resolve();
 			};
-			DBOpenRequest.onerror = () =>
+			DBOpenRequest.onerror = () => {
 				reject(
 					new Error(
 						DBOpenRequest.error?.message ?? 'IndexedDB error',
 					),
 				);
+			};
 		});
 	}
 
 	function transaction(storeNames: string[], mode: IDBTransactionMode) {
-		return db!.transaction(storeNames, mode);
+		return db?.transaction(storeNames, mode);
 	}
 
 	function get<T>(
@@ -39,9 +40,12 @@ const Database = (() => {
 	): Promise<T | undefined> {
 		return new Promise((resolve) => {
 			const DBRequest = ObjectStore.get(key);
-			DBRequest.onsuccess = () =>
+			DBRequest.onsuccess = () => {
 				resolve(DBRequest.result as T | undefined);
-			DBRequest.onerror = () => resolve(undefined);
+			};
+			DBRequest.onerror = () => {
+				resolve(undefined);
+			};
 		});
 	}
 
@@ -58,7 +62,7 @@ const Dictionary = (() => {
 			for (const kanji of entry.kanji) {
 				const key = kanji.text;
 				if (!kanjiIndex.has(key)) kanjiIndex.set(key, []);
-				kanjiIndex.get(key)!.push(entry.id);
+				kanjiIndex.get(key)?.push(entry.id);
 			}
 		}
 
@@ -66,6 +70,9 @@ const Dictionary = (() => {
 			[STORE_NAMES.entries, STORE_NAMES.kanjiIndex],
 			'readwrite',
 		);
+
+		if (!transaction) return;
+
 		const entriesStore = transaction.objectStore(STORE_NAMES.entries);
 		for (const entry of entries) entriesStore.put(entry);
 
@@ -73,19 +80,23 @@ const Dictionary = (() => {
 		for (const [key, ids] of kanjiIndex) kanjiStore.put(ids, key);
 
 		await new Promise<void>((resolve, reject) => {
-			transaction.oncomplete = () => resolve();
-			transaction.onerror = () =>
+			transaction.oncomplete = () => {
+				resolve();
+			};
+			transaction.onerror = () => {
 				reject(
 					new Error(
 						transaction.error?.message ?? 'Transaction error',
 					),
 				);
-			transaction.onabort = () =>
+			};
+			transaction.onabort = () => {
 				reject(
 					new Error(
 						transaction.error?.message ?? 'Transaction aborted',
 					),
 				);
+			};
 		});
 	}
 
@@ -94,6 +105,7 @@ const Dictionary = (() => {
 			[STORE_NAMES.kanjiIndex, STORE_NAMES.entries],
 			'readonly',
 		);
+		if (!transaction) return;
 		const kanjiIndexStore = transaction.objectStore(STORE_NAMES.kanjiIndex);
 		const entriesStore = transaction.objectStore(STORE_NAMES.entries);
 
@@ -121,11 +133,16 @@ const Handlers = {
 			[STORE_NAMES.entries],
 			'readonly',
 		);
+		if (!transaction) return;
 		const entriesStore = transaction.objectStore(STORE_NAMES.entries);
 		const count = await new Promise<number>((resolve) => {
 			const DBRequest = entriesStore.count();
-			DBRequest.onsuccess = () => resolve(DBRequest.result);
-			DBRequest.onerror = () => resolve(0);
+			DBRequest.onsuccess = () => {
+				resolve(DBRequest.result);
+			};
+			DBRequest.onerror = () => {
+				resolve(0);
+			};
 		});
 
 		postMessage({ type: count > 0 ? 'ready' : 'build' });

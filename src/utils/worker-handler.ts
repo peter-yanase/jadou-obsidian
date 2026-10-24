@@ -1,13 +1,13 @@
 import { Notice } from 'obsidian';
 
 import type JADOU from 'main';
-import type { Tokenizer, WorkerMessage } from 'types';
+import type { Tokenizer, WorkerMessage } from 'const/types';
 import { JADOUListModal } from 'ui/readingsuggester';
-import { DB_NAME, JMDICT_FILE } from 'utils/constants';
+import { JMDICT_FILE } from 'const/constants';
 import { extractSemanticUnits } from 'utils/formatter';
 
 export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
-	const worker = plugin.worker!;
+	const worker = plugin.worker;
 
 	async function handleBuild() {
 		const { adapter } = plugin.app.vault;
@@ -15,7 +15,7 @@ export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 		const binaryData = await adapter.readBinary(
 			`${plugin.dataFolderPath}/${JMDICT_FILE}`,
 		);
-		worker.postMessage({ type: 'build', binaryData });
+		worker?.postMessage({ type: 'build', binaryData });
 		new Notice('Building database');
 	}
 
@@ -53,8 +53,8 @@ export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 			validNewKeyString = true;
 		}
 		if (validNewKeyString) {
-			new Notice(`Searching for ${newKeystring}`);
-			plugin.worker!.postMessage({
+			new Notice(`Searching for ${newKeystring ?? ''}`);
+			plugin.worker?.postMessage({
 				type: 'lookup',
 				keystring: newKeystring,
 			});
@@ -76,6 +76,8 @@ export function setupWorker(plugin: JADOU, tokenizer: Tokenizer) {
 				break;
 		}
 	}
+
+	if (!worker) return;
 
 	worker.onmessage = handleWorkerMessage;
 
@@ -105,20 +107,4 @@ export function terminateWorker(plugin: JADOU) {
 	if (!worker) return;
 	worker.terminate();
 	plugin.worker = null;
-}
-
-export async function deleteCache(plugin: JADOU) {
-	const dbs = await indexedDB.databases();
-	const dbExists = dbs.some((db) => db.name === DB_NAME);
-
-	if (!dbExists) {
-		new Notice('No dictionary cache');
-		return;
-	}
-
-	terminateWorker(plugin);
-
-	const request = indexedDB.deleteDatabase(DB_NAME);
-	request.onsuccess = () => new Notice('Dictionary cache deleted');
-	plugin.dictionaryReady = false;
 }

@@ -1,6 +1,6 @@
 import type JADOU from 'main';
-import { type GlossaryView } from 'ui/glossarypanel';
-import { GLOSSARY_VIEW_TYPE } from 'utils/constants';
+import { type GlossaryView } from 'ui/GlossaryView';
+import { GLOSSARY_VIEW_TYPE } from 'const/constants';
 
 export async function getGlossaryView(plugin: JADOU): Promise<GlossaryView> {
 	const { workspace } = plugin.app;

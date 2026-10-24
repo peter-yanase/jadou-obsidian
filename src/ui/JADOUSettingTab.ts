@@ -5,10 +5,10 @@ import {
 } from 'obsidian';
 
 import type JADOU from 'main';
-import { deleteCache } from 'utils/worker-handler';
+import { deleteCache } from 'workerhandlers/deleteCache';
 
-export class JADOUSettingsTab extends PluginSettingTab {
-	private plugin: JADOU;
+export class JADOUSettingTab extends PluginSettingTab {
+	plugin: JADOU;
 
 	constructor(app: App, plugin: JADOU) {
 		super(app, plugin);

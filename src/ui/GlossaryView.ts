@@ -1,18 +1,13 @@
-import { type WorkspaceLeaf } from 'obsidian';
-
 import { ItemView, Notice, htmlToMarkdown } from 'obsidian';
 import {
 	GLOSSARY_VIEW_TYPE,
 	JADOU_GLOSSARY_PANEL_NAME,
 	ICONS,
-} from 'utils/constants';
+} from 'const/constants';
 import { Sorter } from 'utils/sorter';
+import { sortGlossary } from 'glossary/sortGlossary';
 
 export class GlossaryView extends ItemView {
-	constructor(leaf: WorkspaceLeaf) {
-		super(leaf);
-	}
-
 	getViewType() {
 		return GLOSSARY_VIEW_TYPE;
 	}
@@ -22,7 +17,7 @@ export class GlossaryView extends ItemView {
 	}
 
 	getIcon() {
-		return ICONS['glossary']!;
+		return ICONS.glossary ?? '';
 	}
 
 	async onOpen() {
@@ -34,7 +29,7 @@ export class GlossaryView extends ItemView {
 		const warningEl = createSpan();
 		warningEl.addClass('warning');
 		warningEl.textContent =
-			'Will be emptied on closing Obsidian or disabling the plugin.';
+			'Will be emptied on closing this panel or Obsidian, or disabling the plugin.';
 		navigationEl.appendChild(warningEl);
 
 		const addButton = (label: string, handler: () => void) => {
@@ -43,9 +38,15 @@ export class GlossaryView extends ItemView {
 			buttonEl.addEventListener('click', handler);
 			navigationEl.appendChild(buttonEl);
 		};
-		addButton('Copy all', () => this.copyAll());
-		addButton('Clear', () => this.clear());
-		addButton('Sort', () => this.sort());
+		addButton('Copy all', () => {
+			this.copyAll();
+		});
+		addButton('Clear', () => {
+			this.clear();
+		});
+		addButton('Sort', () => {
+			sortGlossary(this);
+		});
 
 		this.contentEl.appendChild(navigationEl);
 
@@ -66,7 +67,7 @@ export class GlossaryView extends ItemView {
 		glossaryEl.prepend(entryEl);
 	}
 
-	private getGlossary(): HTMLElement | null {
+	getGlossary(): HTMLElement | null {
 		return this.contentEl.querySelector('.glossary > ul');
 	}
 
@@ -81,7 +82,7 @@ export class GlossaryView extends ItemView {
 		return Array.from(glossaryEl.children).some((child) => {
 			const existingEntryHeader = (
 				child.querySelector('.result-header') as HTMLElement
-			)?.innerText;
+			).innerText;
 			return existingEntryHeader === newEntryHeader;
 		});
 	}
@@ -117,14 +118,17 @@ export class GlossaryView extends ItemView {
 		entryEl.setAttribute('draggable', 'true');
 
 		entryEl.addEventListener('dragstart', (event) => {
-			event.dataTransfer!.dropEffect = 'move';
+			const transfer = event.dataTransfer;
+			if (!transfer) return;
+
+			transfer.dropEffect = 'move';
 			entryEl.addClass('dragging');
 
 			const rawHtml = `<br>${entryEl.outerHTML}`;
-			event.dataTransfer!.setData('text/html', rawHtml);
+			transfer.setData('text/html', rawHtml);
 
 			const markdown = htmlToMarkdown(rawHtml);
-			event.dataTransfer!.setData('text/plain', markdown);
+			transfer.setData('text/plain', markdown);
 		});
 
 		entryEl.addEventListener('dragend', () => {
@@ -156,24 +160,4 @@ export class GlossaryView extends ItemView {
 		);
 	}
 
-	private sort() {
-		const glossaryEl = this.getGlossary();
-		if (!glossaryEl) return;
-
-		const entries: HTMLElement[] = Array.from(
-			glossaryEl.children,
-		) as HTMLElement[];
-
-		const collator = new Intl.Collator('ja', {
-			sensitivity: 'base',
-			caseFirst: 'false',
-			numeric: true,
-		});
-
-		entries
-			.sort((a, b) => {
-				return collator.compare(a.innerText, b.innerText);
-			})
-			.forEach((item) => glossaryEl.appendChild(item));
-	}
 }

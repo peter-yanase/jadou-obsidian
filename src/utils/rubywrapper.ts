@@ -8,9 +8,7 @@ export function addMDRubyWrapper(
 ): void {
 	const editor = plugin.editorDuringLookUp;
 
-	if (!editor) return;
-
-	const originalKeystring = plugin.originalKeystring!;
+	const originalKeystring = plugin.originalKeystring;
 
 	const kanjiReadingMap = extractKanjiReadings(keystring, reading);
 
@@ -19,7 +17,7 @@ export function addMDRubyWrapper(
 			? annotateWithRuby(keystring, kanjiReadingMap)
 			: annotateWithRuby(originalKeystring, kanjiReadingMap);
 
-	editor.replaceSelection(annotatedString);
+	editor?.replaceSelection(annotatedString);
 
 	function extractKanjiReadings(
 		surface: string,

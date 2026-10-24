@@ -8,7 +8,7 @@ export class Sorter {
 	}
 
 	private getTarget(event: DragEvent): HTMLElement | null {
-		return (event.target as HTMLElement)?.closest('li.result');
+		return (event.target as HTMLElement).closest('li.result');
 	}
 
 	private init() {

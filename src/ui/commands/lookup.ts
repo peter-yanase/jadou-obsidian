@@ -1,12 +1,12 @@
 import type JADOU from 'main';
 import { triggerLookUp } from 'ui/lookuptrigger';
-import { ICONS } from 'utils/constants';
+import { ICONS } from 'const/constants';
 import { lookUpKeystring } from 'utils/worker-handler';
 
 export const lookUpCmds = [cmdLookUp, clickLookUp, ribbonLookup];
 
 const lookUpName = 'Look up expression';
-const lookUpIcon = ICONS['lookUp'] ?? '';
+const lookUpIcon = ICONS.lookup ?? '';
 
 function cmdLookUp(plugin: JADOU) {
 	plugin.addCommand({
@@ -30,7 +30,9 @@ function clickLookUp(plugin: JADOU) {
 			menu.addItem((item) => {
 				item.setTitle(lookUpName)
 					.setIcon(lookUpIcon)
-					.onClick(() => lookUpKeystring(plugin));
+					.onClick(() => {
+						lookUpKeystring(plugin);
+					});
 			});
 		}),
 	);
