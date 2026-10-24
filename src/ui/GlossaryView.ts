@@ -26,27 +26,31 @@ export class GlossaryView extends ItemView {
 
 		const navigationEl = createEl('nav');
 
-		const warningEl = createSpan();
-		warningEl.addClass('warning');
-		warningEl.textContent =
-			'Will be emptied on closing this panel or Obsidian, or disabling the plugin.';
-		navigationEl.appendChild(warningEl);
+		const buttonsEl = createDiv();
+		buttonsEl.addClass('buttons');
+		navigationEl.appendChild(buttonsEl);
 
 		const addButton = (label: string, handler: () => void) => {
 			const buttonEl = createEl('button');
 			buttonEl.textContent = label;
 			buttonEl.addEventListener('click', handler);
-			navigationEl.appendChild(buttonEl);
+			buttonsEl.appendChild(buttonEl);
 		};
+		addButton('Sort', () => {
+			sortGlossary(this);
+		});
 		addButton('Copy all', () => {
 			this.copyAll();
 		});
 		addButton('Clear', () => {
 			this.clear();
 		});
-		addButton('Sort', () => {
-			sortGlossary(this);
-		});
+
+		const warningEl = createDiv();
+		warningEl.addClass('warning');
+		warningEl.textContent =
+			'Will be emptied on closing this panel or Obsidian, or disabling the plugin.';
+		navigationEl.appendChild(warningEl);
 
 		this.contentEl.appendChild(navigationEl);
 
@@ -75,14 +79,12 @@ export class GlossaryView extends ItemView {
 		glossaryEl: HTMLElement,
 		entryEl: HTMLElement,
 	): boolean {
-		const newEntryHeader = (
-			entryEl.querySelector('.result-header') as HTMLElement
-		).innerText;
+		const newEntryHeader =
+			entryEl.querySelector<HTMLElement>('.result-header')?.innerText;
 
 		return Array.from(glossaryEl.children).some((child) => {
-			const existingEntryHeader = (
-				child.querySelector('.result-header') as HTMLElement
-			).innerText;
+			const existingEntryHeader =
+				child.querySelector<HTMLElement>('.result-header')?.innerText;
 			return existingEntryHeader === newEntryHeader;
 		});
 	}
@@ -159,5 +161,4 @@ export class GlossaryView extends ItemView {
 			{ once: true },
 		);
 	}
-
 }

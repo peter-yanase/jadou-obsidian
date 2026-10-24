@@ -152,12 +152,12 @@ export class JADOUListModal extends Modal {
 
 			if (evt.button === 0) {
 				window.setTimeout(() => {
-					(this.addToGlossary(), 0);
-				});
+					this.addToGlossary();
+				}, 0);
 			} else if (evt.button === 2) {
 				window.setTimeout(() => {
-					(this.addFurigana(), 0);
-				});
+					this.addFurigana();
+				}, 0);
 			}
 		});
 	}
@@ -198,6 +198,11 @@ export class JADOUListModal extends Modal {
 				const clonedResultEl = formattedResultEl.cloneNode(
 					true,
 				) as HTMLElement;
+
+				const header =
+					clonedResultEl.querySelector<HTMLElement>('.result-header');
+				header?.append(`【${this.keystring}】`);
+
 				resultView.setContent(clonedResultEl);
 			})();
 		}, 0);

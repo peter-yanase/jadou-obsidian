@@ -53,15 +53,21 @@ strong.tags {
     top: 0;
     background-color: var(--background-primary);
     padding: var(--size-4-3);
-    display: flex;
-    align-items: center;
     box-shadow: var(--pdf-shadow);
     margin-bottom: var(--size-4-3);
-    gap: var(--size-4-3);
+    z-index: 1;
+
+    & .buttons {
+      margin-bottom: 0.5em;
+      display: flex;
+      justify-content: center;
+      gap: var(--size-4-3);
+    }
 
     & .warning {
       font-size: var(--font-ui-small);
       color: var(--text-warning);
+      text-align: center;
     }
   }
 

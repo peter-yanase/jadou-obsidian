@@ -9,8 +9,10 @@ export function triggerLookUp(plugin: JADOU) {
 	const viewType = workspace.getActiveViewOfType(View)?.getViewType();
 	if (!viewType) return;
 
-	if (!SUPPORTED_VIEWS.includes(viewType))
-		return new Notice('Unsupported view');
+	if (!SUPPORTED_VIEWS.includes(viewType)) {
+		new Notice('Unsupported view');
+		return;
+	}
 
 	plugin.editorDuringLookUp = workspace.activeEditor?.editor;
 

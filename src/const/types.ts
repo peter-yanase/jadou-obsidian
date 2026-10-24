@@ -5,16 +5,40 @@ export interface DataFile {
 	url: string;
 }
 
-export type Tokenizer = {
+export interface Tokenizer {
 	tokenize(text: string): IpadicFeatures[];
-};
+}
+
+interface InitMessage {
+	type: 'init';
+}
+
+interface BuildMessage {
+	type: 'build';
+	binaryData: ArrayBuffer;
+}
+
+interface ReadyMessage {
+	type: 'ready';
+}
+
+interface LookupMessage {
+	type: 'lookup';
+	keystring: string;
+}
+
+interface ResultMessage {
+	type: 'result';
+	entries: Entry[];
+	keystring: string;
+}
 
 export type WorkerMessage =
-	| { type: 'init' }
-	| { type: 'build'; binaryData: ArrayBuffer }
-	| { type: 'ready' }
-	| { type: 'lookup'; keystring: string }
-	| { type: 'result'; entries: Entry[]; keystring: string };
+	| InitMessage
+	| BuildMessage
+	| ReadyMessage
+	| LookupMessage
+	| ResultMessage;
 
 export interface Kanji {
 	text: string;

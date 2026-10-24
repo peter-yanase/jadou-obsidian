@@ -38,7 +38,12 @@ export function addMDRubyWrapper(
 					followsKanji = true;
 				} else {
 					// Append the kanji to the previous block
-					kanjiBlocks[kanjiBlocks.length - 1] += character;
+					const lastIndex = kanjiBlocks.length - 1;
+					const lastBlock = kanjiBlocks[lastIndex];
+
+					if (lastBlock !== undefined) {
+						kanjiBlocks[lastIndex] = lastBlock + character;
+					}
 				}
 			} else {
 				followsKanji = false;
