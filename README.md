@@ -12,7 +12,6 @@ JADOU is an evolving, in‑context Japanese language toolbox created by a specia
 - Support for looking up inflected word forms
 - Mobile support
 - PDF support
-- Lineage (https://github.com/ycnmhd/obsidian-lineage) plugin support
 - One-click/hotkey-binded sentence selection
 
 ## How to Use
