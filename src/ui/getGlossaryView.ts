@@ -1,18 +1,22 @@
-import type JADOU from 'main';
-import { type GlossaryView } from 'ui/GlossaryView';
+import { Workspace } from 'obsidian';
+
+import { GlossaryView } from 'ui/GlossaryView';
 import { GLOSSARY_VIEW_TYPE } from 'const/constants';
 
-export async function getGlossaryView(plugin: JADOU): Promise<GlossaryView> {
-	const { workspace } = plugin.app;
-
-	let glossaryLeaf =
-		workspace.getLeavesOfType(GLOSSARY_VIEW_TYPE)[0] ??
-		(await workspace.ensureSideLeaf(GLOSSARY_VIEW_TYPE, 'right', {
+export async function getGlossaryView(
+	workspace: Workspace,
+): Promise<GlossaryView> {
+	const view = (
+		await workspace.ensureSideLeaf(GLOSSARY_VIEW_TYPE, 'right', {
 			active: false,
-		}));
+		})
+	).view;
 
-	await glossaryLeaf.setViewState({
-		type: GLOSSARY_VIEW_TYPE,
-	});
-	return glossaryLeaf.view as GlossaryView;
+	if (!(view instanceof GlossaryView)) {
+		throw new Error(
+			`Expected ${GLOSSARY_VIEW_TYPE}, got ${view.getViewType()}`,
+		);
+	}
+
+	return view;
 }

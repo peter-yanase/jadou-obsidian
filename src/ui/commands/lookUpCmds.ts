@@ -1,7 +1,7 @@
 import type JADOU from 'main';
-import { triggerLookUp } from 'ui/lookuptrigger';
+import { triggerLookUp } from 'ui/triggerLookUp';
 import { ICONS } from 'const/constants';
-import { lookUpKeystring } from 'utils/worker-handler';
+import { lookUpKeystring } from 'workerhandlers/lookUpKeystring';
 
 export const lookUpCmds = [cmdLookUp, clickLookUp, ribbonLookup];
 

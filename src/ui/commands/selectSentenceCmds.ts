@@ -1,6 +1,6 @@
 import type JADOU from 'main';
 import { ICONS } from 'const/constants';
-import { selectSentence } from 'utils/sentenceselector';
+import { selectSentence } from 'utils/selectSentence';
 
 export const selectSentenceCmds = [cmdSelectSentence, clickSelectSentence];
 

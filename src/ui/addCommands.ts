@@ -1,6 +1,6 @@
 import type JADOU from 'main';
-import { lookUpCmds } from 'ui/commands/lookup';
-import { selectSentenceCmds } from 'ui/commands/selectsentence';
+import { lookUpCmds } from 'ui/commands/lookUpCmds';
+import { selectSentenceCmds } from 'ui/commands/selectSentenceCmds';
 
 // Wrapper function
 export function addCommands(plugin: JADOU) {

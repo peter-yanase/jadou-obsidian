@@ -2,6 +2,7 @@ export const ICONS: Record<string, string> = {
 	lookUp: 'languages',
 	selectSentence: 'wand',
 	glossary: 'table-properties',
+	delete: 'trash-2',
 };
 
 export const SENTENCE_SEPARATORS = ['．', '。', ' ', '　', '？', '！'];
@@ -67,7 +68,7 @@ export const DATA_FILES = [
 
 export const GLOSSARY_VIEW_TYPE = 'jadou-glossary-view';
 
-export const JADOU_GLOSSARY_PANEL_NAME = 'JADOU glossary';
+export const GLOSSARY_PANEL_NAME = 'JADOU glossary';
 
 export const DB_NAME = 'jadou-db';
 
@@ -76,7 +77,7 @@ export const STORE_NAMES = {
 	kanjiIndex: 'kanjiIndex',
 };
 
-export const SUPPORTED_VIEWS = ['markdown', 'pdf', 'lineage'];
+export const SUPPORTED_VIEWS = ['markdown', 'pdf'];
 
 export const ABBREVIATIONS: Record<string, string> = {
 	// Reading

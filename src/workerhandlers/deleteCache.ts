@@ -1,8 +1,8 @@
 import { Notice } from 'obsidian';
 
-import JADOU from 'main';
+import type JADOU from 'main';
 import { DB_NAME } from 'const/constants';
-import { terminateWorker } from 'utils/worker-handler';
+import { terminateWorker } from './terminateWorker';
 
 export async function deleteCache(plugin: JADOU) {
 	const dbs = await indexedDB.databases();

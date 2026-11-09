@@ -36,16 +36,18 @@ To enable ruby rendering and editing you need to install [Advanced Ruby](https:/
 
 ### Coming
 
-- Kana-only lookup support.
 - Support for traditional kanji forms.
+- Text normalizer.
+- Show whitespace
 
 ### Planned
 
+- Kana-only lookup support.
 - Saving/loading/attaching glossaries.
 
 ## Security
 
-- This plugin has zero dependencies.
+- This plugin has zero run-time dependencies.
 - JADOU requires an internet connection only to download or update its dictionary data. It operates entirely offline otherwise and does not transmit or store your personal information.
 
 ## Licenses & Acknowledgments

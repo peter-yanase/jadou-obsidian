@@ -2,7 +2,7 @@ import { MarkdownView, Notice, View } from 'obsidian';
 
 import type JADOU from 'main';
 import { SUPPORTED_VIEWS } from 'const/constants';
-import { lookUpKeystring } from 'utils/worker-handler';
+import { lookUpKeystring } from 'workerhandlers/lookUpKeystring';
 
 export function triggerLookUp(plugin: JADOU) {
 	const { workspace } = plugin.app;

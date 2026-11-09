@@ -6,9 +6,10 @@ import {
 
 import type JADOU from 'main';
 import { deleteCache } from 'workerhandlers/deleteCache';
+import { ICONS } from 'const/constants';
 
 export class JADOUSettingTab extends PluginSettingTab {
-	plugin: JADOU;
+	private plugin: JADOU;
 
 	constructor(app: App, plugin: JADOU) {
 		super(app, plugin);
@@ -22,7 +23,7 @@ export class JADOUSettingTab extends PluginSettingTab {
 				render: (setting) => {
 					setting.addButton((button) =>
 						button
-							.setIcon('trash-2')
+							.setIcon(ICONS.delete ?? '')
 							.setButtonText('Delete')
 							.onClick(async () => {
 								await deleteCache(this.plugin);

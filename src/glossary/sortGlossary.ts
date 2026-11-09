@@ -1,12 +1,7 @@
-import { GlossaryView } from 'ui/GlossaryView';
-
-export function sortGlossary(view: GlossaryView) {
-	const glossaryEl = view.getGlossary();
-	if (!glossaryEl) return;
-
-	const entries: HTMLElement[] = Array.from(
-		glossaryEl.children,
-	) as HTMLElement[];
+export function sortGlossary(glossaryEl: HTMLElement) {
+	const entries: HTMLElement[] = Array.from(glossaryEl.children).filter(
+		(child) => child.instanceOf(HTMLElement),
+	);
 
 	const collator = new Intl.Collator('ja', {
 		sensitivity: 'base',
