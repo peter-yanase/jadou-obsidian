@@ -1,8 +1,8 @@
 <h1 align="center">JADOU</h1>
 <p align="center">
-  <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpeter-yanase%2Fjadou-obsidian%2Fraw%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=version&style=for-the-badge&label=version">
+  <img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/peter-yanase/jadou-obsidian/refs/heads/main/manifest.json&query=version&style=for-the-badge&label=version">
   <img src="https://img.shields.io/github/downloads/peter-yanase/jadou-obsidian/total?style=for-the-badge" alt="downloads badge">
-  <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fpeter-yanase%2Fjadou-obsidian%2Fraw%2Frefs%2Fheads%2Fmain%2Fpackage.json&query=license&style=for-the-badge&label=license">
+  <img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/peter-yanase/jadou-obsidian/refs/heads/main/package.json&query=license&style=for-the-badge&label=license">
 </p>
 
 JADOU is an evolving, in‑context Japanese language toolbox created by a specialist in Japanese language and culture. You can look up readings and meanings, insert furigana, build glossaries, and automatically select sentences with it. Everything runs locally with no network access.
