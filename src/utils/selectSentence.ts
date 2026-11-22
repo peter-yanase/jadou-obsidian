@@ -1,18 +1,18 @@
-import { type Editor } from 'obsidian';
+import { type EditorPosition, type Editor } from 'obsidian';
 
 import { SENTENCE_SEPARATORS } from 'const/constants';
 
-export function selectSentence(editor: Editor) {
-	const cursor = editor.getCursor();
-	const line = editor.getLine(cursor.line);
-	const cursorPosition = cursor.ch;
+export function selectSentence(editor: Editor): void {
+	const cursor: EditorPosition = editor.getCursor();
+	const line: string = editor.getLine(cursor.line);
+	const cursorPosition: number = cursor.ch;
 
-	let sentenceStart = 0;
-	let sentenceEnd = line.length;
+	let sentenceStart: number = 0;
+	let sentenceEnd: number = line.length;
 
 	for (const separator of SENTENCE_SEPARATORS) {
 		// Next separator after cursor
-		const separatorAfter = line.indexOf(separator, cursorPosition);
+		const separatorAfter: number = line.indexOf(separator, cursorPosition);
 		if (separatorAfter !== -1) {
 			sentenceEnd = Math.min(
 				sentenceEnd,
@@ -21,7 +21,10 @@ export function selectSentence(editor: Editor) {
 		}
 
 		// Last separator before cursor
-		const separatorBefore = line.lastIndexOf(separator, cursorPosition - 1);
+		const separatorBefore: number = line.lastIndexOf(
+			separator,
+			cursorPosition - 1,
+		);
 		if (separatorBefore !== -1) {
 			sentenceStart = Math.max(
 				sentenceStart,

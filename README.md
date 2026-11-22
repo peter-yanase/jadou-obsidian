@@ -12,10 +12,11 @@ JADOU is an evolving, in‑context Japanese language toolbox created by a specia
 - Support for looking up inflected word forms
 - Mobile support
 - PDF support
-- Lineage (https://github.com/ycnmhd/obsidian-lineage) plugin support
 - One-click/hotkey-binded sentence selection
 
 ## How to Use
+
+![Advanced Ruby with JADOU](https://github.com/peter-yanase/obsidian-advanced-ruby/raw/refs/heads/master/assets/advanced_ruby_with_jadou.gif)
 
 - Select a Japanese expression _containing kanji_ and trigger the lookup command to open the dictionary panel. You can use the ribbon icon, the command panel, a keyboard shortcut, or the editor’s context menu to do this.
 - The “common,” “rare,” “irregular,” and “outdated” tags next to the entries refer to the kana usage / readings. These guide you toward the most context-appropriate bundle.
@@ -25,12 +26,6 @@ JADOU is an evolving, in‑context Japanese language toolbox created by a specia
 - Use the Sort button to reorder entries in Japanese alphabetical order.
 - Right‑click an entry to remove it from the glossary.
 - Press <kb>Space</kb> or right‑click an entry in the dictionary panel to insert furigana instead of adding it to the glossary.
-
-## JADOU ♥️ Advanced Ruby 
-
-To enable ruby rendering and editing you need to install [Advanced Ruby](https://github.com/peter-yanase/obsidian-advanced-ruby) as well. 
-
-![Advanced Ruby with JADOU](https://github.com/peter-yanase/obsidian-advanced-ruby/raw/refs/heads/master/assets/advanced_ruby_with_jadou.gif)
 
 ## Roadmap
 

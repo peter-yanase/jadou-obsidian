@@ -1,22 +1,20 @@
 import { DataAdapter } from 'obsidian';
+
 import { getReadableStream } from 'utils/getReadableStream';
 
-export class dictLoader {
-	private adapter: DataAdapter;
-	private dataFolderPath: string;
-
-	constructor(adapter: DataAdapter, dataFolderPath: string) {
-		this.adapter = adapter;
-		this.dataFolderPath = dataFolderPath;
-	}
-
-	async loadArrayBuffer(file: string) {
-		const binaryData = await this.adapter.readBinary(
-			`${this.dataFolderPath}/${file}`,
+export function dictLoader(adapter: DataAdapter, dataFolderPath: string) {
+	async function loadArrayBuffer(file: string): Promise<ArrayBuffer> {
+		const binaryData: ArrayBuffer = await adapter.readBinary(
+			`${dataFolderPath}/${file}`,
 		);
-		const readable = getReadableStream(binaryData);
-		const decompressedData = await new Response(readable).arrayBuffer();
+		const readable: ReadableStream | undefined =
+			getReadableStream(binaryData);
+
+		const decompressedData: ArrayBuffer = await new Response(
+			readable,
+		).arrayBuffer();
 
 		return decompressedData;
 	}
+	return { loadArrayBuffer };
 }

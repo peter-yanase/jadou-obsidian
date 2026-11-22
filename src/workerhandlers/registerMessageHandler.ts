@@ -12,9 +12,9 @@ export function registerWorkerMessageHandler(
 	dataFolderPath: string,
 	worker: Worker,
 	tokenizer: Tokenizer,
-) {
+): void {
 	worker.onmessage = (event: MessageEvent<WorkerMessage>) => {
-		const msg = event.data;
+		const msg: WorkerMessage = event.data;
 
 		switch (msg.type) {
 			case 'build':

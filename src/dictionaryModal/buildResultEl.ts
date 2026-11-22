@@ -6,11 +6,11 @@ export function buildResultEl(
 	unit: SemanticUnit,
 	index: number,
 	modal: dictionaryModal,
-) {
-	const resultEl = createEl('li');
+): HTMLLIElement {
+	const resultEl: HTMLLIElement = createEl('li');
 	resultEl.addClass('result');
 
-	const resultHeaderEl = createEl('strong');
+	const resultHeaderEl: HTMLElement = createEl('strong');
 	resultHeaderEl.addClass('result-header');
 	resultHeaderEl.appendText(unit.kana);
 	if (unit.kanaCommon) {
@@ -27,25 +27,25 @@ export function buildResultEl(
 	}
 	resultEl.appendChild(resultHeaderEl);
 
-	const resultMainEl = createEl('ol');
+	const resultMainEl: HTMLOListElement = createEl('ol');
 	resultMainEl.addClass('result-main');
 	resultEl.appendChild(resultMainEl);
 
 	for (const sense of unit.senses) {
-		const senseEl = createEl('li');
+		const senseEl: HTMLLIElement = createEl('li');
 
 		senseEl.appendText(sense.gloss.map((gloss) => gloss.text).join('; '));
 
-		const tags = [
+		const tags: string = [
 			...sense.dialect.map((dialect) => ABBREVIATIONS[dialect]),
 			...sense.misc.map((misc) => ABBREVIATIONS[misc]),
 		].join('; ');
 
 		if (tags) {
-			const tagsEl = createSpan();
+			const tagsEl: HTMLSpanElement = createSpan();
 			tagsEl.appendText(' (');
 
-			const taglistEl = createEl('strong');
+			const taglistEl: HTMLElement = createEl('strong');
 			taglistEl.addClass('tags');
 			taglistEl.appendText(tags);
 			tagsEl.appendChild(taglistEl);

@@ -4,7 +4,7 @@ import { build } from './build';
 import { lookup } from './lookup';
 
 onmessage = (event: MessageEvent<WorkerMessage>) => {
-	const message = event.data;
+	const message: WorkerMessage = event.data;
 
 	switch (message.type) {
 		case 'init':

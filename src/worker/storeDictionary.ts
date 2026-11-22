@@ -1,31 +1,38 @@
-import type { DictionaryObject } from 'const/types';
-import { Database } from './database';
+import type { DictionaryObject, Entry } from 'const/types';
+import { database } from './database';
 import { STORE_NAMES } from 'const/constants';
 
-export async function storeDictionary(dictionary: DictionaryObject) {
-	const entries = dictionary.words;
+export async function storeDictionary(
+	dictionary: DictionaryObject,
+): Promise<void> {
+	const entries: Entry[] = dictionary.words;
 
 	// Build kanji index for fast lookup
-	const kanjiIndex = new Map<string, number[]>();
+	const kanjiIndex: Map<string, number[]> = new Map<string, number[]>();
 	for (const entry of entries) {
 		for (const kanji of entry.kanji) {
-			const key = kanji.text;
+			const key: string = kanji.text;
 			if (!kanjiIndex.has(key)) kanjiIndex.set(key, []);
 			kanjiIndex.get(key)?.push(entry.id);
 		}
 	}
 
-	const transaction = Database.transaction(
-		[STORE_NAMES.entries, STORE_NAMES.kanjiIndex],
+	const {
+		kanjiIndex: kanjiIndexName,
+		entries: entriesName,
+	}: Record<string, string> = STORE_NAMES;
+	if (!kanjiIndexName || !entriesName) return;
+
+	const transaction: IDBTransaction | undefined = database.transaction(
+		[entriesName, kanjiIndexName],
 		'readwrite',
 	);
-
 	if (!transaction) return;
 
-	const entriesStore = transaction.objectStore(STORE_NAMES.entries);
+	const entriesStore: IDBObjectStore = transaction.objectStore(entriesName);
 	for (const entry of entries) entriesStore.put(entry);
 
-	const kanjiStore = transaction.objectStore(STORE_NAMES.kanjiIndex);
+	const kanjiStore: IDBObjectStore = transaction.objectStore(kanjiIndexName);
 	for (const [key, ids] of kanjiIndex) kanjiStore.put(ids, key);
 
 	await new Promise<void>((resolve, reject) => {

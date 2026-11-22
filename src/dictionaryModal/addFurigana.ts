@@ -1,8 +1,8 @@
 import { type dictionaryModal } from 'ui/dictionaryModal';
-import { addMDRubyWrapper } from 'utils/addMDRubyWrapper';
+import { addMDRuby } from 'utils/addMDRuby';
 
-export function addFurigana(modal: dictionaryModal) {
-	addMDRubyWrapper(
+export function addFurigana(modal: dictionaryModal): void {
+	addMDRuby(
 		modal.plugin,
 		modal.keystring,
 		modal.units[modal.selectedIndex]?.kana ?? '',

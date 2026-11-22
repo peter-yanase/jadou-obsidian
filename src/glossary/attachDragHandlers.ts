@@ -1,19 +1,19 @@
 import { htmlToMarkdown } from 'obsidian';
 
-export function attachDragHandlers(entryEl: HTMLElement) {
+export function attachDragHandlers(entryEl: HTMLElement): void {
 	entryEl.setAttribute('draggable', 'true');
 
 	entryEl.addEventListener('dragstart', (event) => {
-		const transfer = event.dataTransfer;
+		const transfer: DataTransfer | null = event.dataTransfer;
 		if (!transfer) return;
 
 		transfer.dropEffect = 'move';
 		entryEl.addClass('dragging');
 
-		const rawHtml = `<br>${entryEl.outerHTML}`;
+		const rawHtml: string = `<br>${entryEl.outerHTML}`;
 		transfer.setData('text/html', rawHtml);
 
-		const markdown = htmlToMarkdown(rawHtml);
+		const markdown: string = htmlToMarkdown(rawHtml);
 		transfer.setData('text/plain', markdown);
 	});
 

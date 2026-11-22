@@ -5,8 +5,8 @@ export function extractKanjiReadings(
 	reading: string,
 ): Map<string, string> {
 	const kanjiBlocks: string[] = [];
-	let capturePattern = '';
-	let followsKanji = false;
+	let capturePattern: string = '';
+	let followsKanji: boolean = false;
 
 	for (const character of surface) {
 		if (hasKanji(character)) {
@@ -19,8 +19,8 @@ export function extractKanjiReadings(
 				followsKanji = true;
 			} else {
 				// Append the kanji to the previous block
-				const lastIndex = kanjiBlocks.length - 1;
-				const lastBlock = kanjiBlocks[lastIndex];
+				const lastIndex: number = kanjiBlocks.length - 1;
+				const lastBlock: string | undefined = kanjiBlocks[lastIndex];
 
 				if (lastBlock) {
 					kanjiBlocks[lastIndex] = lastBlock + character;
@@ -34,12 +34,14 @@ export function extractKanjiReadings(
 	}
 
 	// Get the individual readings
-	const match = new RegExp(`^${capturePattern}$`).exec(reading);
+	const match: RegExpExecArray | null = new RegExp(
+		`^${capturePattern}$`,
+	).exec(reading);
 	if (!match) return new Map();
-	const kanjiReadings = match.slice(1);
+	const kanjiReadings: string[] = match.slice(1);
 
 	// Create map
-	const kanjiReadingMap = new Map<string, string>();
+	const kanjiReadingMap: Map<string, string> = new Map<string, string>();
 	kanjiBlocks.forEach((kanjiBlock, index) => {
 		kanjiReadingMap.set(kanjiBlock, kanjiReadings[index] ?? '');
 	});

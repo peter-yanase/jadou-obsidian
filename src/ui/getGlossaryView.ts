@@ -1,4 +1,4 @@
-import { Workspace } from 'obsidian';
+import { type View, type Workspace } from 'obsidian';
 
 import { GlossaryView } from 'ui/GlossaryView';
 import { GLOSSARY_VIEW_TYPE } from 'const/constants';
@@ -6,9 +6,10 @@ import { GLOSSARY_VIEW_TYPE } from 'const/constants';
 export async function getGlossaryView(
 	workspace: Workspace,
 ): Promise<GlossaryView> {
-	const view = (
+	const view: View = (
 		await workspace.ensureSideLeaf(GLOSSARY_VIEW_TYPE, 'right', {
-			active: false,
+			active: true,
+			reveal: false,
 		})
 	).view;
 

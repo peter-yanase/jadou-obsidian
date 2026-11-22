@@ -8,7 +8,7 @@ export function attachMouseBehavior(
 	resultEl: HTMLElement,
 	index: number,
 	modal: dictionaryModal,
-) {
+): void {
 	// Update selection on hover
 	resultEl.addEventListener('mouseenter', () => {
 		updateSelection(index, modal);

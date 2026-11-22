@@ -6,8 +6,8 @@ export async function handleBuild(
 	adapter: DataAdapter,
 	dataFolderPath: string,
 	worker: Worker,
-) {
-	const binaryData = await adapter.readBinary(
+): Promise<void> {
+	const binaryData: ArrayBuffer = await adapter.readBinary(
 		`${dataFolderPath}/${JMDICT_FILE}`,
 	);
 	worker.postMessage({ type: 'build', binaryData });

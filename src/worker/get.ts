@@ -3,7 +3,7 @@ export function get<T>(
 	key: IDBValidKey,
 ): Promise<T | undefined> {
 	return new Promise((resolve) => {
-		const DBRequest = ObjectStore.get(key);
+		const DBRequest: IDBRequest = ObjectStore.get(key);
 
 		DBRequest.onsuccess = () => {
 			resolve(DBRequest.result as T | undefined);

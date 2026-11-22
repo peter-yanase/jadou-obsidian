@@ -1,4 +1,4 @@
-import { ItemView, type WorkspaceLeaf } from 'obsidian';
+import { ItemView } from 'obsidian';
 
 import {
 	GLOSSARY_VIEW_TYPE,
@@ -12,23 +12,19 @@ import { prepareEntry } from 'glossary/prepareEntry';
 export class GlossaryView extends ItemView {
 	glossaryEl?: HTMLElement;
 
-	constructor(leaf: WorkspaceLeaf) {
-		super(leaf);
-	}
-
-	getViewType() {
+	getViewType(): string {
 		return GLOSSARY_VIEW_TYPE;
 	}
 
-	getDisplayText() {
+	getDisplayText(): string {
 		return GLOSSARY_PANEL_NAME;
 	}
 
-	getIcon() {
+	getIcon(): string {
 		return ICONS.glossary ?? '';
 	}
 
-	setContent(entryEl: HTMLElement) {
+	setContent(entryEl: HTMLElement): void {
 		if (!this.glossaryEl) return;
 
 		if (entryExists(this.glossaryEl, entryEl)) return;
@@ -38,11 +34,11 @@ export class GlossaryView extends ItemView {
 		this.glossaryEl.prepend(entryEl);
 	}
 
-	async onOpen() {
+	async onOpen(): Promise<void> {
 		this.glossaryEl = buildGlossaryPanel(this.contentEl);
 	}
 
-	async onClose() {
+	async onClose(): Promise<void> {
 		// Nothing to clean up.
 	}
 }

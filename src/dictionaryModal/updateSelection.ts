@@ -1,10 +1,13 @@
 import { type dictionaryModal } from 'ui/dictionaryModal';
 
-export function updateSelection(newIndex: number, modal: dictionaryModal) {
+export function updateSelection(
+	newIndex: number,
+	modal: dictionaryModal,
+): void {
 	// Clamp index to valid range
 	newIndex = Math.max(0, Math.min(newIndex, modal.units.length - 1));
 
-	const children = modal.resultsEl?.children;
+	const children: HTMLCollection | undefined = modal.resultsEl?.children;
 	if (!children) return;
 
 	// Deselect previous

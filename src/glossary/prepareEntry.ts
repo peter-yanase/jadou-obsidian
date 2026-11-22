@@ -1,6 +1,6 @@
 import { attachDragHandlers } from './attachDragHandlers';
 
-export function prepareEntry(entryEl: HTMLElement) {
+export function prepareEntry(entryEl: HTMLElement): void {
 	entryEl.removeClass('is-selected');
 
 	// Briefly add CSS class for animation

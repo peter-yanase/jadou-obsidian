@@ -1,7 +1,12 @@
 import { Notice } from 'obsidian';
 
 import type JADOU from 'main';
-import type { Tokenizer, WorkerMessage } from 'const/types';
+import type {
+	Entry,
+	SemanticUnit,
+	Tokenizer,
+	WorkerMessage,
+} from 'const/types';
 import { tryMorphed } from './tryMorphed';
 import { extractSemanticUnits } from 'utils/extractSemanticUnits';
 import { dictionaryModal } from 'ui/dictionaryModal';
@@ -11,9 +16,9 @@ export function handleResult(
 	tokenizer: Tokenizer,
 	worker: Worker,
 	plugin: JADOU,
-) {
-	const entries = message.entries;
-	const keystring = message.keystring;
+): void {
+	const entries: Entry[] = message.entries;
+	const keystring: string = message.keystring;
 	if (entries.length === 0) {
 		new Notice(`No matches for ${keystring}`);
 
@@ -21,7 +26,7 @@ export function handleResult(
 		return;
 	}
 
-	const units = extractSemanticUnits(entries, keystring);
+	const units: SemanticUnit[] = extractSemanticUnits(entries, keystring);
 
 	if (units.length === 0) {
 		new Notice('Nothing found');

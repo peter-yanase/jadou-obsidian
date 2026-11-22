@@ -134,3 +134,31 @@ strong.tags {
   color: var(--color-red);
   content: "irregular";
 }
+
+.markdown-source-view,
+.markdown-preview-view {
+  & ruby {
+    &.ar-lv1 {
+      color: var(--ar-lv1-base-color);
+      ruby-position: var(--ar-lv1-ruby-position);
+      > rt {
+        position: relative;
+        color: var(--ar-lv1-ruby-color);
+        font-size: var(--ar-lv1-ruby-size);
+        bottom: var(--ar-lv1-ruby-relative-offset);
+        ruby-align: var(--ar-lv1-ruby-distribution);
+      }
+    }
+    &.ar-lv2 {
+      color: var(--ar-lv2-base-color);
+      ruby-position: var(--ar-lv2-ruby-position);
+      > rt {
+        position: relative;
+        color: var(--ar-lv2-ruby-color);
+        font-size: var(--ar-lv2-ruby-size);
+        bottom: var(--ar-lv2-ruby-relative-offset);
+        ruby-align: var(--ar-lv2-ruby-distribution);
+      }
+    }
+  }
+}

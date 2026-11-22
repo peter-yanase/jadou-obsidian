@@ -1,4 +1,4 @@
-export function clearGlossary(glossaryEl: HTMLElement) {
+export function clearGlossary(glossaryEl: HTMLElement): void {
 	glossaryEl.addClass('leaving');
 	glossaryEl.addEventListener(
 		'animationend',

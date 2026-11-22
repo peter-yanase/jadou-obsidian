@@ -1,12 +1,14 @@
-import { MarkdownView, Notice, View } from 'obsidian';
+import { type App, MarkdownView, Notice, View } from 'obsidian';
 
 import type JADOU from 'main';
 import { SUPPORTED_VIEWS } from 'const/constants';
 import { lookUpKeystring } from 'workerhandlers/lookUpKeystring';
 
-export function triggerLookUp(plugin: JADOU) {
-	const { workspace } = plugin.app;
-	const viewType = workspace.getActiveViewOfType(View)?.getViewType();
+export function triggerLookUp(plugin: JADOU): void {
+	const { workspace }: App = plugin.app;
+	const viewType: string | undefined = workspace
+		.getActiveViewOfType(View)
+		?.getViewType();
 	if (!viewType) return;
 
 	if (!SUPPORTED_VIEWS.includes(viewType)) {
@@ -18,7 +20,9 @@ export function triggerLookUp(plugin: JADOU) {
 
 	// Prioritize window selection -- PDF view, embedded PDF, and reading view
 	// This needs to run every time to catch the selection inside embedded PDFs.
-	const windowSelection = window.getSelection()?.toString();
+	const windowSelection: string | undefined = window
+		.getSelection()
+		?.toString();
 	if (windowSelection) {
 		runLookUp(windowSelection);
 		return;
@@ -34,7 +38,7 @@ export function triggerLookUp(plugin: JADOU) {
 	// Next we make sure we are not focused on an embedded PDF
 	// (If something is selected in the editor and then the embeded PDF is focused on without selection,
 	// Obsidian will still call the selection from the editor.)
-	const { activeElement } = activeDocument;
+	const { activeElement }: Document = activeDocument;
 	if (
 		activeElement?.hasClass('pdf-embed') ||
 		activeElement?.hasClass('textLayer')
@@ -43,7 +47,8 @@ export function triggerLookUp(plugin: JADOU) {
 		return;
 	}
 
-	const editorSelection = plugin.editorDuringLookUp?.getSelection();
+	const editorSelection: string | undefined =
+		plugin.editorDuringLookUp?.getSelection();
 	if (editorSelection) {
 		runLookUp(editorSelection);
 		return;
@@ -51,12 +56,12 @@ export function triggerLookUp(plugin: JADOU) {
 
 	showNoSelectionMsg();
 
-	function runLookUp(keystring: string) {
+	function runLookUp(keystring: string): void {
 		plugin.originalKeystring = keystring;
 		lookUpKeystring(plugin);
 	}
 
-	function showNoSelectionMsg() {
+	function showNoSelectionMsg(): void {
 		new Notice('Nothing selected');
 	}
 }

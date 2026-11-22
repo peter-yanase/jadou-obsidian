@@ -1,4 +1,4 @@
-import type { Entry, SemanticUnit } from 'const/types';
+import type { Entry, Kanji, SemanticUnit, Sense } from 'const/types';
 
 export function extractSemanticUnits(
 	entries: Entry[],
@@ -8,7 +8,7 @@ export function extractSemanticUnits(
 
 	for (const entry of entries) {
 		// Find the kanji object matching the keystring
-		const matchingKanjiObject = entry.kanji.find(
+		const matchingKanjiObject: Kanji | undefined = entry.kanji.find(
 			(kanjiObject) => kanjiObject.text === keystring,
 		);
 		if (!matchingKanjiObject) continue;
@@ -30,11 +30,11 @@ export function extractSemanticUnits(
 				continue;
 
 			// Filter senses that apply to both the kana and the kanji
-			const applicableSenses = entry.sense.filter((sense) => {
-				const kanaOK =
+			const applicableSenses: Sense[] = entry.sense.filter((sense) => {
+				const kanaOK: boolean =
 					sense.appliesToKana.includes('*') ||
 					sense.appliesToKana.includes(kanaEntry.text);
-				const kanjiOK =
+				const kanjiOK: boolean =
 					sense.appliesToKanji.includes('*') ||
 					sense.appliesToKanji.includes(matchingKanjiObject.text);
 

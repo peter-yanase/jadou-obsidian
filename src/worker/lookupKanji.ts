@@ -1,22 +1,35 @@
 import { STORE_NAMES } from 'const/constants';
-import { Database } from './database';
+import { database } from './database';
 import type { Entry } from 'const/types';
 
-export async function lookupKanji(keystring: string) {
-	const transaction = Database.transaction(
-		[STORE_NAMES.kanjiIndex, STORE_NAMES.entries],
+export async function lookupKanji(
+	keystring: string,
+): Promise<Entry[] | undefined> {
+	const {
+		kanjiIndex: kanjiIndexName,
+		entries: entriesName,
+	}: Record<string, string> = STORE_NAMES;
+	if (!kanjiIndexName || !entriesName) return;
+
+	const transaction: IDBTransaction | undefined = database.transaction(
+		[kanjiIndexName, entriesName],
 		'readonly',
 	);
 	if (!transaction) return;
-	const kanjiIndexStore = transaction.objectStore(STORE_NAMES.kanjiIndex);
-	const entriesStore = transaction.objectStore(STORE_NAMES.entries);
+
+	const kanjiIndexStore: IDBObjectStore =
+		transaction.objectStore(kanjiIndexName);
+	const entriesStore: IDBObjectStore = transaction.objectStore(entriesName);
 
 	const ids: number[] =
-		(await Database.get(kanjiIndexStore, keystring)) ?? [];
+		(await database.get(kanjiIndexStore, keystring)) ?? [];
 
 	const results: Entry[] = [];
 	for (const id of ids) {
-		const entry = await Database.get<Entry>(entriesStore, id);
+		const entry: Entry | undefined = await database.get<Entry>(
+			entriesStore,
+			id,
+		);
 		if (entry) results.push(entry);
 	}
 

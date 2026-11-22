@@ -6,9 +6,10 @@ export function tryMorphed(
 	keystring: string,
 	tokenizer: Tokenizer,
 	worker: Worker,
-) {
-	const newKeystring = tokenizer.tokenize(keystring)[0]?.basic_form;
-	let validNewKeyString = false;
+): void {
+	const newKeystring: string | undefined =
+		tokenizer.tokenize(keystring)[0]?.basic_form;
+	let validNewKeyString: boolean = false;
 	if (newKeystring && newKeystring !== '*' && newKeystring !== keystring) {
 		validNewKeyString = true;
 	}

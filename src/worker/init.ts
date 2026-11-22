@@ -1,14 +1,21 @@
 import { STORE_NAMES } from 'const/constants';
-import { Database } from './database';
+import { database } from './database';
 
-export async function init() {
-	await Database.open();
+export async function init(): Promise<void> {
+	await database.open();
 
 	// Check if there are any entries
-	const transaction = Database.transaction([STORE_NAMES.entries], 'readonly');
+	const { entries: entriesName }: Record<string, string> = STORE_NAMES;
+	if (!entriesName) return;
+
+	const transaction: IDBTransaction | undefined = database.transaction(
+		[entriesName],
+		'readonly',
+	);
 	if (!transaction) return;
-	const entriesStore = transaction.objectStore(STORE_NAMES.entries);
-	const count = await new Promise<number>((resolve) => {
+
+	const entriesStore: IDBObjectStore = transaction.objectStore(entriesName);
+	const count: number = await new Promise<number>((resolve) => {
 		const DBRequest = entriesStore.count();
 		DBRequest.onsuccess = () => {
 			resolve(DBRequest.result);

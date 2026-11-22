@@ -4,12 +4,12 @@ import { get } from './get';
 
 let db: IDBDatabase | null = null;
 
-export function setDB(database: IDBDatabase) {
+export function setDB(database: IDBDatabase): void {
 	db = database;
 }
 
-export function getDB() {
+export function getDB(): IDBDatabase | null {
 	return db;
 }
 
-export const Database = { open, transaction, get };
+export const database = { open, transaction, get };

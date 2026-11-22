@@ -24,7 +24,7 @@ export class dictionaryModal extends Modal {
 	selectedIndex = 0;
 	resultsEl?: HTMLElement;
 
-	onOpen() {
+	onOpen(): void {
 		// Sort the units so that those with the common tag come first
 		this.units = [...this.units].sort((a, b) => {
 			if (a.kanaCommon === b.kanaCommon) return 0;
@@ -35,21 +35,23 @@ export class dictionaryModal extends Modal {
 
 		setupContainer(this);
 		this.units.forEach((unit, index) => {
-			const resultEl = buildResultEl(unit, index, this);
+			const resultEl: HTMLLIElement = buildResultEl(unit, index, this);
 			attachMouseBehavior(resultEl, index, this);
 			this.resultsEl?.appendChild(resultEl);
 		});
 		this.resultsEl?.addEventListener(
 			'mouseenter',
 			(event) => {
-				const closestResultEl = (event.target as HTMLElement).closest(
-					'.result',
-				);
+				const target: EventTarget | null = event.target;
+				if (!(target instanceof HTMLElement)) return;
+				const closestResultEl: Element | null =
+					target.closest('.result');
 				if (!closestResultEl) return;
 
-				const children = this.resultsEl?.children;
+				const children: HTMLCollection | undefined =
+					this.resultsEl?.children;
 				if (!children) return;
-				const hoveredOver =
+				const hoveredOver: number =
 					Array.from(children).indexOf(closestResultEl);
 				updateSelection(hoveredOver, this);
 			},
@@ -58,7 +60,7 @@ export class dictionaryModal extends Modal {
 		registerKeyHandlers(this);
 	}
 
-	onClose() {
+	onClose(): void {
 		this.contentEl.empty();
 	}
 }

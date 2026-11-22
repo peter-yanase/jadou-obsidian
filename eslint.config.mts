@@ -32,5 +32,10 @@ export default defineConfig(
             },
         },
     },
+    {
+        rules: {
+            '@typescript-eslint/no-inferrable-types': 'off',
+        },
+    },
     ...obsidianmd.configs.recommended,
 );

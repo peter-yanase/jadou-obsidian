@@ -2,9 +2,9 @@ import { type dictionaryModal } from 'ui/dictionaryModal';
 import { updateSelection } from './updateSelection';
 import { addFurigana } from './addFurigana';
 import { addToGlossary } from './addToGlossary';
-import { swallowEvent } from '../utils/swallowEvent';
+import { swallowEvent } from 'utils/swallowEvent';
 
-export function registerKeyHandlers(modal: dictionaryModal) {
+export function registerKeyHandlers(modal: dictionaryModal): void {
 	const actions: Record<string, () => void> = {
 		ArrowDown: () => {
 			updateSelection(modal.selectedIndex + 1, modal);
@@ -25,7 +25,7 @@ export function registerKeyHandlers(modal: dictionaryModal) {
 
 	modal.containerEl.addEventListener('keydown', (event) => {
 		swallowEvent(event);
-		const action = actions[event.code];
+		const action: (() => void) | undefined = actions[event.code];
 		if (action) {
 			action();
 		}

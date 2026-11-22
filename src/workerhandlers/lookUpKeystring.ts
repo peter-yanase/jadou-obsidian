@@ -2,8 +2,8 @@ import { Notice } from 'obsidian';
 
 import type JADOU from 'main';
 
-export function lookUpKeystring(plugin: JADOU) {
-	const worker = plugin.worker;
+export function lookUpKeystring(plugin: JADOU): void {
+	const worker: Worker | null = plugin.worker;
 	if (!worker) {
 		new Notice('Reload the plugin!');
 		return;

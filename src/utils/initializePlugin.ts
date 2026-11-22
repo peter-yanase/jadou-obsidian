@@ -1,41 +1,45 @@
 import { TokenizerBuilder } from '@patdx/kuromoji';
-import { Notice, requestUrl } from 'obsidian';
+import { Notice, requestUrl, RequestUrlResponse, type Vault } from 'obsidian';
 
 import type JADOU from 'main';
 import { DATA_FILES } from 'const/constants';
-import { dictLoader } from 'utils/dictLoader';
 import { registerWorkerMessageHandler } from 'workerhandlers/registerMessageHandler';
+import type { Tokenizer } from 'const/types';
+import { dictLoader } from './dictLoader';
 
-export async function initializePlugin(plugin: JADOU) {
-	const worker = plugin.worker;
+export async function initializePlugin(plugin: JADOU): Promise<void> {
+	const worker: Worker | null = plugin.worker;
 	if (!worker) return;
 
-	const { adapter } = plugin.app.vault;
-	const dataFolderPath = plugin.dataFolderPath;
+	const { adapter }: Vault = plugin.app.vault;
+	const dataFolderPath: string | undefined = plugin.dataFolderPath;
 	if (!dataFolderPath) return;
 
 	if (!(await adapter.exists(dataFolderPath)))
 		await adapter.mkdir(dataFolderPath);
 
 	for (const dataFile of DATA_FILES) {
-		const fileName = dataFile.name;
-		const dataPath = `${dataFolderPath}/${fileName}`;
+		const fileName: string | undefined = dataFile.name;
+		const url: string | undefined = dataFile.url;
+		if (!fileName || !url) continue;
+
+		const dataPath: string = `${dataFolderPath}/${fileName}`;
 
 		if (await adapter.exists(dataPath)) continue;
 
 		try {
 			new Notice(`Downloading ${fileName}…`);
-			const response = await requestUrl(dataFile.url);
+			const response: RequestUrlResponse = await requestUrl(url);
 			await adapter.writeBinary(dataPath, response.arrayBuffer);
 			new Notice(`Downloaded ${fileName}`);
 		} catch {
-			new Notice(`Failed to download ${dataFile.name}`);
+			new Notice(`Failed to download ${fileName}`);
 			return;
 		}
 	}
 
-	const tokenizer = await new TokenizerBuilder({
-		loader: new dictLoader(adapter, dataFolderPath),
+	const tokenizer: Tokenizer = await new TokenizerBuilder({
+		loader: dictLoader(adapter, dataFolderPath),
 	}).build();
 
 	registerWorkerMessageHandler(

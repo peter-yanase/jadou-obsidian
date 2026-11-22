@@ -1,4 +1,4 @@
-export function swallowEvent(event: KeyboardEvent | MouseEvent) {
+export function swallowEvent(event: KeyboardEvent | MouseEvent): void {
 	event.preventDefault();
 	event.stopPropagation();
 }

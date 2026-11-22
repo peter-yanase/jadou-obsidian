@@ -1,29 +1,26 @@
 import type JADOU from 'main';
-import { ICONS } from 'const/constants';
+import { ICONS, NAMES } from 'const/constants';
 import { selectSentence } from 'utils/selectSentence';
 
 export const selectSentenceCmds = [cmdSelectSentence, clickSelectSentence];
 
-const selectSentenceName = 'Select sentence';
-const selectSentenceIcon = ICONS.selectSentence ?? '';
-
-function cmdSelectSentence(plugin: JADOU) {
+function cmdSelectSentence(plugin: JADOU): void {
 	plugin.addCommand({
 		id: 'select-sentence',
-		name: selectSentenceName,
-		icon: selectSentenceIcon,
+		name: NAMES.selectSentence ?? '',
+		icon: ICONS.selectSentence ?? '',
 		editorCallback: (editor) => {
 			selectSentence(editor);
 		},
 	});
 }
 
-function clickSelectSentence(plugin: JADOU) {
+function clickSelectSentence(plugin: JADOU): void {
 	plugin.registerEvent(
 		plugin.app.workspace.on('editor-menu', (menu, editor) => {
 			menu.addItem((item) => {
-				item.setTitle(selectSentenceName)
-					.setIcon(selectSentenceIcon)
+				item.setTitle(NAMES.selectSentence ?? '')
+					.setIcon(ICONS.selectSentence ?? '')
 					.onClick(() => {
 						selectSentence(editor);
 					});
